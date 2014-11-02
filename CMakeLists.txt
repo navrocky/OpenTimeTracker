@@ -17,4 +17,5 @@ add_subdirectory(backends)
 # additional files
 add_custom_target(additional SOURCES
     README.md
+    project.astylerc
 )

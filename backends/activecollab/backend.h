@@ -6,13 +6,18 @@
 namespace ActiveCollab
 {
 
-class Backend : public Core::PMSBackend
+class Backend : public Core::PMS::BackendPlugin
 {
     Q_OBJECT
 public:
     Backend(QObject* parent = 0);
 
-    QWidget* createOptionsWidget(QWidget* parent) override;
+    QString name() const override;
+    QString title() const override;
+    QIcon icon() const override;
+
+    Core::PMS::Connection* createConnection(QObject* parent) const override;
+    QWidget* createOptionsWidget(Core::PMS::Connection* connection, QWidget* parent) override;
 };
 
 }
