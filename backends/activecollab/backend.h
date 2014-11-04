@@ -16,8 +16,8 @@ public:
     QString title() const override;
     QIcon icon() const override;
 
-    Core::PMS::Connection* createConnection(QObject* parent) const override;
-    QWidget* createOptionsWidget(Core::PMS::Connection* connection, QWidget* parent) override;
+    Core::PMS::Connection* createConnection(QObject* parent = 0) const override;
+    QWidget* createOptionsWidget(Core::PMS::Connection* connection, QWidget* parent = 0) const override;
 };
 
 }

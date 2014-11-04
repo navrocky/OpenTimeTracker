@@ -2,10 +2,9 @@
 #include "ui_mainwindow.h"
 #include "optionsdialog.h"
 
-MainWindow::MainWindow(ContextPtr ctx, QWidget* parent)
+MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , ctx_(ctx)
 {
     ui->setupUi(this);
 
@@ -19,7 +18,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::showOptions()
 {
-    OptionsDialog dlg(ctx_, this);
+    OptionsDialog dlg(this);
     dlg.exec();
 }
 

@@ -4,18 +4,17 @@
 
 #include <backends/activecollab/backend.h>
 
-#include "context.h"
+#include "application.h"
 #include "mainwindow.h"
 
 int main(int argc, char** argv)
 {
-    QApplication app(argc, argv);
+    Application app(argc, argv);
 
     // registering backends
-    auto ctx = std::make_shared<Context>();
-    ctx->registerBackend<ActiveCollab::Backend>();
+    app.registerBackend<ActiveCollab::Backend>();
 
-    MainWindow w(ctx);
+    MainWindow w;
     w.show();
 
     int res = app.exec();

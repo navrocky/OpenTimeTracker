@@ -13,7 +13,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(ContextPtr ctx, QWidget* parent = 0);
+    explicit MainWindow(QWidget* parent = 0);
     ~MainWindow();
 
 private slots:
@@ -22,5 +22,4 @@ private slots:
 
 private:
     Ui::MainWindow* ui;
-    ContextPtr ctx_;
 };

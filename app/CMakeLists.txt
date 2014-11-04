@@ -7,17 +7,20 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 set(SOURCES
     pointers.h
     main.cpp
+    application.h
+    application.cpp
     mainwindow.h
     mainwindow.cpp
     optionsdialog.h
     optionsdialog.cpp
-    context.h
-    context.cpp
+    createaccountpage.h
+    createaccountpage.cpp
 )
 
 set(IFACES
     mainwindow.ui
     optionsdialog.ui
+    createaccountpage.ui
 )
 
 set(RESOURCES

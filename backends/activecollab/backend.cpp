@@ -3,11 +3,12 @@
 #include <QIcon>
 
 #include "connection.h"
+#include "optionswidget.h"
 
 namespace ActiveCollab
 {
 
-Backend::Backend(QObject *parent)
+Backend::Backend(QObject* parent)
     : Core::PMS::BackendPlugin(parent)
 {
 }
@@ -28,14 +29,15 @@ QIcon Backend::icon() const
     return QIcon();
 }
 
-Core::PMS::Connection *Backend::createConnection(QObject *parent) const
+Core::PMS::Connection* Backend::createConnection(QObject* parent) const
 {
-    return new Connection(parent);
+    return new Connection(this, parent);
 }
 
-QWidget *Backend::createOptionsWidget(Core::PMS::Connection *connection, QWidget *parent)
+QWidget* Backend::createOptionsWidget(Core::PMS::Connection* connection, QWidget* parent) const
 {
-
+    auto w = new OptionsWidget(qobject_cast<Connection*>(connection), parent);
+    return w;
 }
 
 }

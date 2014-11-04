@@ -13,19 +13,19 @@ using namespace Core;
 namespace ActiveCollab
 {
 
-Connection::Connection(QObject *parent)
-    : Core::PMS::Connection(parent)
+Connection::Connection(const PMS::BackendPlugin *plugin, QObject* parent)
+    : Core::PMS::Connection(plugin, parent)
     , client_(new QNetworkAccessManager(this))
 {
 }
 
-void Connection::load(const QVariantMap &m)
+void Connection::load(const QVariantMap& m)
 {
     setTitle(m["title"].toString());
     setApiUrl(m["apiUrl"].toString());
 }
 
-void Connection::save(QVariantMap &m) const
+void Connection::save(QVariantMap& m) const
 {
     m["title"] = title();
     m["apiUrl"] = apiUrl();

@@ -14,18 +14,16 @@
    <string>Options</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">
-
-#pageListWidget {
+   <string notr="true">#pageListWidget {
 background: #444
 }
 
-QListWidget::item {
+QListWidget#pageListWidget::item {
 height:30px;
 color: white;
 }
 
-QListWidget::item:selected {
+QListWidget#pageListWidget::item:selected {
 background: white;
 color: black;
 }
@@ -78,26 +76,6 @@ font: bold 14pt;
        <string>New Item</string>
       </property>
      </item>
-     <item>
-      <property name="text">
-       <string>New Item</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>New Item</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>New Item</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>New Item</string>
-      </property>
-     </item>
     </widget>
    </item>
    <item>
@@ -111,7 +89,7 @@ font: bold 14pt;
         <item>
          <widget class="QLabel" name="headerLabel">
           <property name="text">
-           <string>TextLabel</string>
+           <string>Header</string>
           </property>
          </widget>
         </item>
@@ -121,34 +99,8 @@ font: bold 14pt;
      <item>
       <widget class="QStackedWidget" name="stackedWidget">
        <property name="currentIndex">
-        <number>0</number>
+        <number>-1</number>
        </property>
-       <widget class="QWidget" name="page">
-        <layout class="QVBoxLayout" name="verticalLayout_4">
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_3">
-           <item>
-            <widget class="QLabel" name="label">
-             <property name="text">
-              <string>Account type</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QListView" name="listView"/>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButton">
-           <property name="text">
-            <string>Create account</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="page_2"/>
       </widget>
      </item>
     </layout>

@@ -19,19 +19,34 @@ namespace PMS
 
 typedef std::function<void(Error)> SimpleResultHandler;
 
+class BackendPlugin;
+
 class Connection : public QObject
 {
     Q_OBJECT
 public:
-    Connection(QObject* parent);
+    Connection(const BackendPlugin* plugin, QObject* parent);
 
+    /// Reference to backend
+    const BackendPlugin* plugin() const;
+
+    /// Loading connection
     virtual void load(const QVariantMap&) = 0;
+
+    /// Saving connection
     virtual void save(QVariantMap&) const = 0;
 
+    /// Connection optional title
     QString title() const;
+
+    /// Change connection optional title
     void setTitle(const QString&);
 
-    virtual void checkConnection(SimpleResultHandler) = 0;
+//    /// Check connection
+//    virtual void checkConnection(SimpleResultHandler) = 0;
+
+signals:
+    void connectionChanged();
 
 private:
     DECL_DATA
@@ -47,8 +62,8 @@ public:
     virtual QString title() const = 0;
     virtual QIcon icon() const = 0;
 
-    virtual Connection* createConnection(QObject* parent) const = 0;
-    virtual QWidget* createOptionsWidget(Connection* connection, QWidget* parent) = 0;
+    virtual Connection* createConnection(QObject* parent = 0) const = 0;
+    virtual QWidget* createOptionsWidget(Connection* connection, QWidget* parent = 0) const = 0;
 
 };
 
