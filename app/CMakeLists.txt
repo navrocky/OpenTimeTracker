@@ -6,6 +6,8 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(SOURCES
     pointers.h
+    dbtools.h
+    dbtools.cpp
     main.cpp
     application.h
     application.cpp
@@ -29,6 +31,7 @@ set(RESOURCES
 
 find_package(Qt5Core)
 find_package(Qt5Widgets)
+find_package(Qt5Sql)
 qt5_wrap_ui(SOURCES ${IFACES})
 qt5_add_resources(SOURCES ${RESOURCES})
 
@@ -40,4 +43,4 @@ target_link_libraries(${TARGET}
     core
     activecollabbackend
 )
-target_link_libraries(${TARGET} Qt5::Core Qt5::Widgets)
+target_link_libraries(${TARGET} Qt5::Core Qt5::Widgets Qt5::Sql)

@@ -2,17 +2,23 @@
 
 #include <memory>
 #include <QApplication>
+#include <QPointer>
+#include <QSqlDatabase>
 #include <core/pmsbackend.h>
 #include "pointers.h"
 
 typedef QList<BackendPluginPtr> BackendPlugins;
 typedef QList<ConnectionPtr> Connections;
 
+class QSqlDatabase;
+
 class Application : public QApplication
 {
     Q_OBJECT
 public:
     Application(int& argc, char** argv);
+
+    void init();
 
     static Application* instance();
 
@@ -28,6 +34,8 @@ public:
     void addConnection(ConnectionPtr connection);
     void removeConnection(ConnectionPtr connection);
 
+//    QSqlDatabase* database();
+
 signals:
     void connectionAdded(ConnectionPtr);
     void connectionRemoved(ConnectionPtr);
@@ -36,6 +44,9 @@ private slots:
     void connectionChanged();
 
 private:
+    void initDatabase();
+
     BackendPlugins backends_;
     Connections connections_;
+    QSqlDatabase db_;
 };

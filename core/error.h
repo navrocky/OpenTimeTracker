@@ -12,10 +12,11 @@ class Error : public std::exception
 public:
     enum Code
     {
-        NoError,
-        Unclassified,
-        Network,
-        Parse
+        NoError = 0,
+        Unclassified = 1,
+        Network = 2,
+        Parse = 3,
+        Database = 4
     };
 
     Error();
@@ -29,7 +30,11 @@ public:
 
     bool hasError() const;
 
+    const char* what() const throw();
+
 private:
+    void updateWhatMessage();
+
     struct Data;
     ImplicitSharing<Data> d;
 };

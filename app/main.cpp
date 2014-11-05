@@ -14,6 +14,8 @@ int main(int argc, char** argv)
     // registering backends
     app.registerBackend<ActiveCollab::Backend>();
 
+    app.init();
+
     MainWindow w;
     w.show();
 
