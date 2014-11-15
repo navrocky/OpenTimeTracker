@@ -9,6 +9,8 @@
 #include <core/error.h>
 
 #include "dbtools.h"
+#include <3rdparty/qdjangodb/QDjango.h>
+#include "dbmodel/modelregistration.h"
 
 Q_LOGGING_CATEGORY(APPLICATION, "application")
 
@@ -69,5 +71,9 @@ void Application::initDatabase()
     if (!db_.open())
         throw Core::Error(tr("Cannot open sqlite database at \"%1\"").arg(dbFilePath));
 
-    DBTools::execQueryAndCheck("CREATE TABLE myinfo ('version' int)");
+    DBModel::registerModels();
+    QDjango::setDatabase(db_);
+    QDjango::setDebugEnabled(true);
+    if (!QDjango::createTables())
+        throw Core::Error(tr("Cannot create tables in database"));
 }

@@ -4,6 +4,8 @@ cmake_policy(SET CMP0020 NEW)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
+add_subdirectory(dbmodel)
+
 set(SOURCES
     pointers.h
     dbtools.h
@@ -40,7 +42,12 @@ set(CMAKE_AUTOMOC ON)
 add_executable(${TARGET} WIN32 ${SOURCES})
 
 target_link_libraries(${TARGET}
+    Qt5::Core
+    Qt5::Widgets
+    Qt5::Sql
+
     core
     activecollabbackend
+    app_dbmodel
+    qdjangodb
 )
-target_link_libraries(${TARGET} Qt5::Core Qt5::Widgets Qt5::Sql)
