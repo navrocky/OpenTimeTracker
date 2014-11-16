@@ -34,8 +34,6 @@ public:
     void addConnection(ConnectionPtr connection);
     void removeConnection(ConnectionPtr connection);
 
-//    QSqlDatabase* database();
-
 signals:
     void connectionAdded(ConnectionPtr);
     void connectionRemoved(ConnectionPtr);
@@ -45,6 +43,13 @@ private slots:
 
 private:
     void initDatabase();
+    int getDbVersion();
+    void loadConnections();
+
+    // migrations
+    void migrateFromVersion0();
+
+    BackendPluginPtr getBackendByName(const QString&);
 
     BackendPlugins backends_;
     Connections connections_;

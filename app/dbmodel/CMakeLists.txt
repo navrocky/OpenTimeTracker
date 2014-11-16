@@ -5,6 +5,8 @@ set(SOURCES
     modelregistration.cpp
     info.h
     info.cpp
+    connection.h
+    connection.cpp
 )
 
 set(CMAKE_AUTOMOC ON)

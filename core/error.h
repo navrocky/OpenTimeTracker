@@ -39,4 +39,10 @@ private:
     ImplicitSharing<Data> d;
 };
 
+#define CATCH_ERROR(LogName) \
+    catch (const std::exception& e) \
+    { \
+        qCCritical(LogName) << e.what(); \
+    }
+
 }
