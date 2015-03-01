@@ -15,7 +15,7 @@ public:
     Connection(const Core::PMS::BackendPlugin* plugin, QObject* parent = 0);
 
     QString apiUrl() const { return apiUrl_; }
-    void setApiUrl(const QString& v) { apiUrl_ = v; }
+    void setApiUrl(const QString& v);
 
     void load(const QVariantMap&) override;
     void save(QVariantMap&) const override;

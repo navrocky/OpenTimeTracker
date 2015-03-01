@@ -22,6 +22,8 @@ public:
     ~OptionsWidget();
 
 private:
+    void checkConnection();
+
     Ui::OptionsWidget* ui;
     QPointer<Connection> connection_;
 };

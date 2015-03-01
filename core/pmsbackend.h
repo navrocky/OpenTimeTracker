@@ -46,6 +46,7 @@ public:
 //    virtual void checkConnection(SimpleResultHandler) = 0;
 
 signals:
+    /// Connection's options changed
     void connectionChanged();
 
 private:

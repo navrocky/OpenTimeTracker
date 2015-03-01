@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>231</height>
+    <height>252</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,10 +26,10 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QLineEdit" name="lineEdit"/>
+        <widget class="QLineEdit" name="apiUrlEdit"/>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="checkConnectionButton">
          <property name="text">
           <string>Check</string>
          </property>

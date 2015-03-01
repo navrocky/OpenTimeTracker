@@ -19,6 +19,14 @@ Connection::Connection(const PMS::BackendPlugin *plugin, QObject* parent)
 {
 }
 
+void Connection::setApiUrl(const QString &v)
+{
+    if (apiUrl_ == v)
+        return;
+    apiUrl_ = v;
+    emit connectionChanged();
+}
+
 void Connection::load(const QVariantMap& m)
 {
     setTitle(m["title"].toString());

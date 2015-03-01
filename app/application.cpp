@@ -10,14 +10,15 @@
 #include <QDir>
 #include <QBuffer>
 #include <QDataStream>
-#include <core/error.h>
 
-#include "dbtools.h"
 #include <3rdparty/qdjangodb/QDjango.h>
 #include <3rdparty/qdjangodb/QDjangoQuerySet.h>
+#include <core/error.h>
+#include <core/pmsbackend.h>
 #include "dbmodel/modelregistration.h"
 #include "dbmodel/info.h"
 #include "dbmodel/connection.h"
+#include "dbtools.h"
 
 Q_LOGGING_CATEGORY(APPLICATION, "application")
 
@@ -134,6 +135,8 @@ void Application::loadConnections()
             if (!backend)
                 throw Core::Error(tr("Connection backend not found: %1").arg(conn.name));
             auto connection = ConnectionPtr(backend->createConnection());
+
+            connect(connection, &Core::PMS::Connection::changed)
 
             QBuffer buf;
             buf.setData(conn.options);
