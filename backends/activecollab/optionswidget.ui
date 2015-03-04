@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>252</height>
+    <height>253</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -44,12 +44,12 @@
      <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>User name</string>
+        <string>User email</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_2"/>
+      <widget class="QLineEdit" name="emailEdit"/>
      </item>
     </layout>
    </item>
@@ -58,19 +58,19 @@
      <item>
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Password</string>
+        <string>API key</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_3"/>
+      <widget class="QLineEdit" name="apiKeyEdit"/>
      </item>
     </layout>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="getApiKeyButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -78,7 +78,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Connect</string>
+        <string>Get API key</string>
        </property>
       </widget>
      </item>

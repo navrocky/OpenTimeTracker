@@ -11,8 +11,7 @@ namespace ActiveCollab
 
 QDomDocument checkReplyAndParseXml(QNetworkReply *reply)
 {
-    if (reply->error() != QNetworkReply::NoError)
-        throw Error(Error::Network, QObject::tr("Request error"), reply->errorString());
+    checkReply(reply);
 
     QString errorMsg;
     int errorLine = 0;
@@ -23,7 +22,15 @@ QDomDocument checkReplyAndParseXml(QNetworkReply *reply)
         throw Error(Error::Network, QObject::tr("Error of parsing reply"),
                     QObject::tr("%1 line:%2 col:%3").arg(errorMsg).arg(errorLine).arg(errorColumn));
 
+    qDebug() << "<8e4686ac>" << doc.toString();
+
     return doc;
+}
+
+void checkReply(QNetworkReply *reply)
+{
+    if (reply->error() != QNetworkReply::NoError)
+        throw Error(Error::Network, reply->errorString());
 }
 
 }

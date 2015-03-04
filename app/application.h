@@ -45,6 +45,7 @@ private:
     void initDatabase();
     int getDbVersion();
     void loadConnections();
+    void saveConnection(Core::PMS::Connection* connection);
 
     // migrations
     void migrateFromVersion0();

@@ -23,6 +23,8 @@ public:
 
 private:
     void checkConnection();
+    void getApiKey();
+    void showError(const QString& text, const QString& detailedText);
 
     Ui::OptionsWidget* ui;
     QPointer<Connection> connection_;

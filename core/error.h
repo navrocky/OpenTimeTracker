@@ -16,7 +16,8 @@ public:
         Unclassified = 1,
         Network = 2,
         Parse = 3,
-        Database = 4
+        Database = 4,
+        Authorization = 5
     };
 
     Error();

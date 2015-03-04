@@ -9,6 +9,8 @@ namespace DBModel
 class Connection : public QDjangoModel
 {
     Q_OBJECT
+    Q_CLASSINFO("__meta__", "db_table=connection")
+    Q_CLASSINFO("name", "primary_key=true")
 
     Q_PROPERTY(QString name MEMBER name)
     Q_PROPERTY(QString title MEMBER title)
@@ -25,5 +27,7 @@ public:
     QByteArray options;
 
 };
+
+
 
 }

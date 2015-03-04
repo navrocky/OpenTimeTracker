@@ -2,6 +2,7 @@
 
 #include <functional>
 #include <QMap>
+#include <QVariantMap>
 #include <QSettings>
 #include <QSqlDatabase>
 #include <QSqlQuery>
@@ -43,21 +44,7 @@ void Application::addConnection(ConnectionPtr connection)
 {
     connections_ << connection;
     emit connectionAdded(connection);
-
-    DBModel::Connection conn;
-    conn.name = connection->plugin()->name();
-    conn.title = connection->title();
-
-    QVariantMap m;
-    connection->save(m);
-
-    QBuffer buf;
-    buf.open(QBuffer::WriteOnly);
-    QDataStream ds(&buf);
-    ds << m;
-    conn.options = buf.data();
-    if (!conn.save())
-        throw Core::Error(tr("Cannot save connection to DB"));
+    saveConnection(connection.get());
 }
 
 void Application::removeConnection(ConnectionPtr connection)
@@ -68,7 +55,8 @@ void Application::removeConnection(ConnectionPtr connection)
 
 void Application::connectionChanged()
 {
-    QSettings s;
+    auto connection = qobject_cast<Core::PMS::Connection*>(sender());
+    saveConnection(connection);
 }
 
 void Application::initDatabase()
@@ -136,7 +124,7 @@ void Application::loadConnections()
                 throw Core::Error(tr("Connection backend not found: %1").arg(conn.name));
             auto connection = ConnectionPtr(backend->createConnection());
 
-            connect(connection, &Core::PMS::Connection::changed)
+            connect(connection.get(), &Core::PMS::Connection::connectionChanged, this, &Application::connectionChanged);
 
             QBuffer buf;
             buf.setData(conn.options);
@@ -150,6 +138,24 @@ void Application::loadConnections()
         }
         CATCH_ERROR(APPLICATION)
     }
+}
+
+void Application::saveConnection(Core::PMS::Connection *connection)
+{
+    DBModel::Connection conn;
+    conn.name = connection->plugin()->name();
+    conn.title = connection->title();
+
+    QVariantMap m;
+    connection->save(m);
+
+    QBuffer buf;
+    buf.open(QBuffer::WriteOnly);
+    QDataStream ds(&buf);
+    ds << m;
+    conn.options = buf.data();
+    if (!conn.save())
+        throw Core::Error(tr("Cannot save connection to DB"));
 }
 
 void Application::migrateFromVersion0()
