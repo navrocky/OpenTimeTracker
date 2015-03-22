@@ -30,6 +30,7 @@ OptionsWidget::OptionsWidget(Connection* connection, QWidget* parent)
     connect(ui->emailEdit, &QLineEdit::textChanged, [this](QString s)
     {
         ui->getApiKeyButton->setEnabled(!s.isEmpty());
+        connection_->setUserEmail(ui->emailEdit->text().trimmed());
     });
 
     connect(ui->getApiKeyButton, &QPushButton::clicked, this, &OptionsWidget::getApiKey);

@@ -7,6 +7,9 @@ set(SOURCES
     info.cpp
     connection.h
     connection.cpp
+    project.h
+    milestone.h
+    task.h
 )
 
 set(CMAKE_AUTOMOC ON)

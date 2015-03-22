@@ -1,12 +1,25 @@
 #pragma once
 
 #include <QString>
+#include <QList>
 #include "implicitsharing.h"
 
 namespace Core
 {
 namespace Model
 {
+
+class Project;
+
+/// Root of all data
+class Root
+{
+public:
+    typedef QList<Project> Projects;
+
+
+
+};
 
 class Project
 {

@@ -36,18 +36,27 @@ public:
     /// Saving connection
     virtual void save(QVariantMap&) const = 0;
 
+    /// Unique connection ID
+    int id() const;
+    void setId(int);
+
     /// Connection optional title
     QString title() const;
 
     /// Change connection optional title
     void setTitle(const QString&);
 
-//    /// Check connection
-//    virtual void checkConnection(SimpleResultHandler) = 0;
+    /// Is connection valid?
+    bool isValid() const;
 
 signals:
     /// Connection's options changed
     void connectionChanged();
+
+    void validChanged();
+
+protected:
+    void setValid(bool);
 
 private:
     DECL_DATA

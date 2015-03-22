@@ -1,6 +1,7 @@
 #include "createaccountpage.h"
 
 #include <QListWidgetItem>
+#include <QUuid>
 
 #include "ui_createaccountpage.h"
 #include "application.h"

@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include <QApplication>
+
 #include <backends/activecollab/backend.h>
 
 #include "application.h"
@@ -7,14 +9,16 @@
 
 int main(int argc, char** argv)
 {
-    Application app(argc, argv);
+    QApplication app(argc, argv);
     app.setApplicationName("OpenTimeTracker");
     app.setOrganizationName("navrocky");
 
-    // registering backends
-    app.registerBackend<ActiveCollab::Backend>();
+    Application modelApp;
 
-    app.init();
+    // registering backends
+    modelApp.registerBackend<ActiveCollab::Backend>();
+
+    modelApp.init();
 
     MainWindow w;
     w.show();

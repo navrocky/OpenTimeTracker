@@ -31,6 +31,8 @@ public:
     QNetworkReply* connectToAccount(const QString& email, const QString& password, Core::PMS::SimpleResultHandler handler);
 
 private:
+    void updateValidFlag();
+
     QString apiUrl_;
     QString userEmail_;
     QString apiKey_;

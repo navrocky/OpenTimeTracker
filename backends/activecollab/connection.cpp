@@ -26,6 +26,7 @@ void Connection::setApiUrl(const QString &v)
         return;
     apiUrl_ = v;
     emit connectionChanged();
+    updateValidFlag();
 }
 
 void Connection::setUserEmail(const QString &v)
@@ -42,6 +43,7 @@ void Connection::setApiKey(const QString &v)
         return;
     apiKey_ = v;
     emit connectionChanged();
+    updateValidFlag();
 }
 
 void Connection::load(const QVariantMap& m)
@@ -144,6 +146,11 @@ QNetworkReply* Connection::connectToAccount(const QString &email,
             handler(err);
         }
     });
+}
+
+void Connection::updateValidFlag()
+{
+    setValid(!apiUrl().isEmpty() && !apiKey().isEmpty());
 }
 
 }

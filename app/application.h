@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <QApplication>
+#include <QObject>
 #include <QPointer>
 #include <QSqlDatabase>
 #include <core/pmsbackend.h>
@@ -12,11 +12,12 @@ typedef QList<ConnectionPtr> Connections;
 
 class QSqlDatabase;
 
-class Application : public QApplication
+class Application : public QObject
 {
     Q_OBJECT
 public:
-    Application(int& argc, char** argv);
+    Application(QObject* parent = 0);
+    ~Application();
 
     void init();
 

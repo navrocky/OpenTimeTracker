@@ -5,7 +5,7 @@
 namespace DBModel
 {
 
-// database information table
+/// Database information table
 class Info : public QDjangoModel
 {
     Q_OBJECT
@@ -14,7 +14,7 @@ class Info : public QDjangoModel
 public:
     Info();
 
-    // database version
+    /// database version
     int dbVersion;
 };
 

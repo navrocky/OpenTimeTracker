@@ -23,10 +23,17 @@
 
 Q_LOGGING_CATEGORY(APPLICATION, "application")
 
-Application::Application(int& argc, char** argv)
-    : QApplication(argc, argv)
-{
+static Application* application = 0;
 
+Application::Application(QObject* parent)
+    : QObject(parent)
+{
+    application = this;
+}
+
+Application::~Application()
+{
+    application = 0;
 }
 
 void Application::init()
@@ -37,11 +44,13 @@ void Application::init()
 
 Application* Application::instance()
 {
-    return static_cast<Application*>(QApplication::instance());
+    return application;
 }
 
 void Application::addConnection(ConnectionPtr connection)
 {
+    connect(connection.get(), &Core::PMS::Connection::connectionChanged,
+            this, &Application::connectionChanged);
     connections_ << connection;
     emit connectionAdded(connection);
     saveConnection(connection.get());
@@ -49,6 +58,8 @@ void Application::addConnection(ConnectionPtr connection)
 
 void Application::removeConnection(ConnectionPtr connection)
 {
+    disconnect(connection.get(), &Core::PMS::Connection::connectionChanged,
+            this, &Application::connectionChanged);
     connections_.removeAll(connection);
     emit connectionRemoved(connection);
 }
@@ -86,7 +97,7 @@ void Application::initDatabase()
     migrations[0] = std::bind(&Application::migrateFromVersion0, this);
 
     // execute migrations
-    while (true)
+    forever
     {
         int dbVersion = getDbVersion();
         if (migrations.contains(dbVersion))
@@ -119,12 +130,16 @@ void Application::loadConnections()
     {
         try
         {
-            BackendPluginPtr backend = getBackendByName(conn.name);
+            BackendPluginPtr backend = getBackendByName(conn.backendName);
             if (!backend)
-                throw Core::Error(tr("Connection backend not found: %1").arg(conn.name));
+                throw Core::Error(tr("Connection backend not found: %1").arg(conn.backendName));
             auto connection = ConnectionPtr(backend->createConnection());
 
-            connect(connection.get(), &Core::PMS::Connection::connectionChanged, this, &Application::connectionChanged);
+            connect(connection.get(), &Core::PMS::Connection::connectionChanged,
+                    this, &Application::connectionChanged);
+
+            connection->setId(conn.pk().toInt());
+            connection->setTitle(conn.title);
 
             QBuffer buf;
             buf.setData(conn.options);
@@ -140,10 +155,14 @@ void Application::loadConnections()
     }
 }
 
-void Application::saveConnection(Core::PMS::Connection *connection)
+void Application::saveConnection(Core::PMS::Connection* connection)
 {
+    bool newConnection = connection->id() == 0;
+
     DBModel::Connection conn;
-    conn.name = connection->plugin()->name();
+    if (!newConnection)
+        conn.setPk(connection->id());
+    conn.backendName = connection->plugin()->name();
     conn.title = connection->title();
 
     QVariantMap m;
@@ -156,6 +175,8 @@ void Application::saveConnection(Core::PMS::Connection *connection)
     conn.options = buf.data();
     if (!conn.save())
         throw Core::Error(tr("Cannot save connection to DB"));
+    if (newConnection)
+        connection->setId(conn.pk().toInt());
 }
 
 void Application::migrateFromVersion0()
