@@ -14,9 +14,6 @@ namespace Core
 namespace PMS
 {
 
-#define DECL_DATA \
-    struct Data; ImplicitSharing<Data> d;
-
 typedef std::function<void(Error)> SimpleResultHandler;
 
 class BackendPlugin;

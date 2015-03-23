@@ -34,3 +34,6 @@ public:
 private:
     std::shared_ptr<Body> body_;
 };
+
+#define DECL_DATA \
+    struct Data; ImplicitSharing<Data> d;

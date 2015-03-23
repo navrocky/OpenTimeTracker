@@ -1,6 +1,7 @@
 set(TARGET opentimetracker)
 
 cmake_policy(SET CMP0020 NEW)
+cmake_policy(SET CMP0028 NEW)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
@@ -33,7 +34,10 @@ set(RESOURCES
 
 find_package(Qt5Core)
 find_package(Qt5Widgets)
+find_package(Qt5Network)
 find_package(Qt5Sql)
+find_package(Qt5Xml)
+
 qt5_wrap_ui(SOURCES ${IFACES})
 qt5_add_resources(SOURCES ${RESOURCES})
 
@@ -44,7 +48,9 @@ add_executable(${TARGET} WIN32 ${SOURCES})
 target_link_libraries(${TARGET}
     Qt5::Core
     Qt5::Widgets
+    Qt5::Network
     Qt5::Sql
+    Qt5::Xml
 
     core
     activecollabbackend
