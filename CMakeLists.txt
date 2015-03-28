@@ -19,4 +19,5 @@ add_subdirectory(3rdparty)
 add_custom_target(additional SOURCES
     README.md
     project.astylerc
+    doc/classes.xmi
 )

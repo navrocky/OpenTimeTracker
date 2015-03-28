@@ -1,7 +1,9 @@
 set(TARGET opentimetracker)
 
 cmake_policy(SET CMP0020 NEW)
-cmake_policy(SET CMP0028 NEW)
+if(POLICY CMP0028)
+    cmake_policy(SET CMP0028 NEW)
+endif()
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
