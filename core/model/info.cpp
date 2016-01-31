@@ -1,6 +1,8 @@
 #include "info.h"
 
-namespace DBModel
+namespace Core
+{
+namespace Model
 {
 
 Info::Info()
@@ -8,4 +10,5 @@ Info::Info()
     setPk(1);
 }
 
+}
 }

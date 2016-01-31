@@ -7,8 +7,6 @@ endif()
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-add_subdirectory(dbmodel)
-
 set(SOURCES
     pointers.h
     dbtools.h
@@ -55,7 +53,7 @@ target_link_libraries(${TARGET}
     Qt5::Xml
 
     core
+    core_model
     activecollabbackend
-    app_dbmodel
     qdjangodb
 )

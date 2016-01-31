@@ -1,34 +1,16 @@
 set(TARGET core)
 
+add_subdirectory(model)
+
 set(SOURCES
     implicitsharing.h
     error.h
     error.cpp
-    pmsbackend.h
-    pmsbackend.cpp
-    model.h
-    model.cpp
-
-    model/pointers.h
-    model/common.h
-    model/tools.h
-    model/tools.cpp
-    model/root.h
-    model/root.cpp
-    model/project.h
-    model/project.cpp
-    model/milestone.h
-    model/milestone.cpp
-    model/task.h
-    model/task.cpp
-    model/user.h
-    model/user.cpp
-    model/connection.h
-    model/connection.cpp
-    model/priority.h
-    model/priority.cpp
-    model/category.h
-    model/category.cpp
+    backend.h
+    backend.cpp
+    connection.h
+    connection.cpp
+    pointers.h
 )
 
 set(CMAKE_AUTOMOC ON)

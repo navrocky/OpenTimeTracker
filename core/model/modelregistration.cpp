@@ -8,7 +8,9 @@
 #include "milestone.h"
 #include "task.h"
 
-namespace DBModel
+namespace Core
+{
+namespace Model
 {
 
 void registerModels()
@@ -20,4 +22,5 @@ void registerModels()
     QDjango::registerModel<Task>();
 }
 
+}
 }

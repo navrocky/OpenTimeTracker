@@ -5,7 +5,7 @@
 namespace DBTools
 {
 
-void execQueryAndCheck(const QString& query);
-void execQueryAndCheck(QSqlQuery& query);
+//void execQueryAndCheck(const QString& query);
+//void execQueryAndCheck(QSqlQuery& query);
 
 }

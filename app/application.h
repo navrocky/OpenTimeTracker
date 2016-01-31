@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QPointer>
 #include <QSqlDatabase>
-#include <core/pmsbackend.h>
+//#include <core/pmsbackend.h>
 #include "pointers.h"
 
 typedef QList<BackendPluginPtr> BackendPlugins;

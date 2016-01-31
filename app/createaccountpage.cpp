@@ -3,6 +3,7 @@
 #include <QListWidgetItem>
 #include <QUuid>
 
+#include <core/backend.h>
 #include "ui_createaccountpage.h"
 #include "application.h"
 #include "pointers.h"

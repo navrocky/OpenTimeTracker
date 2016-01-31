@@ -15,10 +15,10 @@
 #include <3rdparty/qdjangodb/QDjango.h>
 #include <3rdparty/qdjangodb/QDjangoQuerySet.h>
 #include <core/error.h>
-#include <core/pmsbackend.h>
-#include "dbmodel/modelregistration.h"
-#include "dbmodel/info.h"
-#include "dbmodel/connection.h"
+#include <core/backend.h>
+#include <core/model/modelregistration.h>
+#include <core/model/info.h>
+#include <core/model/connection.h>
 #include "dbtools.h"
 
 Q_LOGGING_CATEGORY(APPLICATION, "application")
@@ -86,7 +86,7 @@ void Application::initDatabase()
     if (!db_.open())
         throw Core::Error(tr("Cannot open sqlite database at \"%1\"").arg(dbFilePath));
 
-    DBModel::registerModels();
+    Core::Model::registerModels();
     QDjango::setDatabase(db_);
     QDjango::setDebugEnabled(true);
 
@@ -113,7 +113,7 @@ void Application::initDatabase()
 
 int Application::getDbVersion()
 {
-    QDjangoQuerySet<DBModel::Info> info;
+    QDjangoQuerySet<Core::Model::Info> info;
     if (info.count() == 1)
     {
         auto it = info.begin();
@@ -125,8 +125,8 @@ int Application::getDbVersion()
 
 void Application::loadConnections()
 {
-    QDjangoQuerySet<DBModel::Connection> conns;
-    for (const DBModel::Connection& conn: conns)
+    QDjangoQuerySet<Core::Model::Connection> conns;
+    for (const Core::Model::Connection& conn: conns)
     {
         try
         {
@@ -159,7 +159,7 @@ void Application::saveConnection(Core::PMS::Connection* connection)
 {
     bool newConnection = connection->id() == 0;
 
-    DBModel::Connection conn;
+    Core::Model::Connection conn;
     if (!newConnection)
         conn.setPk(connection->id());
     conn.backendName = connection->plugin()->name();
@@ -184,7 +184,7 @@ void Application::migrateFromVersion0()
     if (!QDjango::createTables())
         throw Core::Error(tr("Cannot create DB tables"));
 
-    DBModel::Info info;
+    Core::Model::Info info;
     info.dbVersion = 1;
     if (!info.save())
         throw Core::Error(tr("Cannot save DB version"));

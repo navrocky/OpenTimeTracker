@@ -1,12 +1,10 @@
 #include "connection.h"
 
-Connection::Connection()
+namespace Core
+{
+namespace Model
 {
 
 }
-
-Connection::~Connection()
-{
-
 }
 

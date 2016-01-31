@@ -2,7 +2,9 @@
 
 #include <3rdparty/qdjangodb/QDjangoModel.h>
 
-namespace DBModel
+namespace Core
+{
+namespace Model
 {
 
 /// Database information table
@@ -18,4 +20,5 @@ public:
     int dbVersion;
 };
 
+}
 }

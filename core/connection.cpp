@@ -1,13 +1,13 @@
-#include "pmsbackend.h"
+#include "connection.h"
 
 #include <QPointer>
+
+#include "backend.h"
 
 namespace Core
 {
 namespace PMS
 {
-
-////////////////////////////////////////////////////////////////////////////////
 
 struct Connection::Data
 {
@@ -64,13 +64,6 @@ void Connection::setValid(bool v)
         return;
     d->valid = v;
     emit validChanged();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-BackendPlugin::BackendPlugin(QObject* parent)
-    : QObject(parent)
-{
 }
 
 }

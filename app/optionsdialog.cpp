@@ -6,6 +6,8 @@
 
 #include "createaccountpage.h"
 #include "application.h"
+#include <core/connection.h>
+#include <core/backend.h>
 
 Q_DECLARE_METATYPE(ConnectionPtr)
 

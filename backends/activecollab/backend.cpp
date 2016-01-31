@@ -15,12 +15,12 @@ Backend::Backend(QObject* parent)
 
 QString Backend::name() const
 {
-    return "ActiveCollab";
+    return "ActiveCollab v4";
 }
 
 QString Backend::title() const
 {
-    return QObject::tr("activeCollab");
+    return QObject::tr("activeCollab v4");
 }
 
 QIcon Backend::icon() const

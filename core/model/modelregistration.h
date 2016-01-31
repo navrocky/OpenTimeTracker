@@ -1,9 +1,12 @@
 #pragma once
 
-namespace DBModel
+namespace Core
+{
+namespace Model
 {
 
 void registerModels();
 
+}
 }
 

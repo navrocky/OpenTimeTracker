@@ -3,7 +3,7 @@
 #include <QUrl>
 #include <QNetworkAccessManager>
 
-#include <core/pmsbackend.h>
+#include <core/connection.h>
 
 namespace ActiveCollab
 {

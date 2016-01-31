@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QObject>
-#include <core/pmsbackend.h>
+#include <core/backend.h>
 
 namespace ActiveCollab
 {
