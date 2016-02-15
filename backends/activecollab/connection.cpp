@@ -7,15 +7,19 @@
 #include <QDomDocument>
 #include <QApplication>
 
+#include <core/applicationcontext.h>
+#include "synctask/context.h"
+#include "synctask/projects.h"
 #include "common.h"
 
+using namespace std;
 using namespace Core;
 
 namespace ActiveCollab
 {
 
-Connection::Connection(const PMS::BackendPlugin *plugin, QObject* parent)
-    : Core::PMS::Connection(plugin, parent)
+Connection::Connection(const ApplicationContextPtr& ctx, const PMS::BackendPlugin *plugin, QObject* parent)
+    : Core::PMS::Connection(ctx, plugin, parent)
     , client_(new QNetworkAccessManager(this))
 {
 }
@@ -151,6 +155,13 @@ QNetworkReply* Connection::connectToAccount(const QString &email,
 void Connection::updateValidFlag()
 {
     setValid(!apiUrl().isEmpty() && !apiKey().isEmpty());
+}
+
+void ActiveCollab::Connection::sync()
+{
+    auto ctx = make_shared<SyncTask::Context>();
+    ctx->client = client_;
+    ctx->root = applicationContext()->rootModel;
 }
 
 }

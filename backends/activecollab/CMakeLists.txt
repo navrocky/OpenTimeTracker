@@ -11,6 +11,12 @@ set(SOURCES
     connection.cpp
     optionswidget.h
     optionswidget.cpp
+
+    synctask/pointers.h
+    synctask/context.h
+    synctask/context.cpp
+    synctask/projects.h
+    synctask/projects.cpp
 )
 
 set(IFACES

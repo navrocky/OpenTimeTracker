@@ -11,6 +11,10 @@ set(SOURCES
     connection.h
     connection.cpp
     pointers.h
+    optional.h
+    pointerscommon.h
+    applicationcontext.h
+    applicationcontext.cpp
 )
 
 set(CMAKE_AUTOMOC ON)

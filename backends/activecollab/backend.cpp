@@ -8,8 +8,8 @@
 namespace ActiveCollab
 {
 
-Backend::Backend(QObject* parent)
-    : Core::PMS::BackendPlugin(parent)
+Backend::Backend(const Core::ApplicationContextPtr& ctx, QObject* parent)
+    : Core::PMS::BackendPlugin(ctx, parent)
 {
 }
 
@@ -31,7 +31,7 @@ QIcon Backend::icon() const
 
 Core::PMS::Connection* Backend::createConnection(QObject* parent) const
 {
-    return new Connection(this, parent);
+    return new Connection(applicationContext(), this, parent);
 }
 
 QWidget* Backend::createOptionsWidget(Core::PMS::Connection* connection, QWidget* parent) const

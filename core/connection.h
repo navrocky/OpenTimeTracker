@@ -5,9 +5,11 @@
 #include <QObject>
 #include <QVariantMap>
 #include <QList>
+#include <QDateTime>
 
 #include "implicitsharing.h"
 #include "error.h"
+#include "pointers.h"
 
 namespace Core
 {
@@ -24,7 +26,7 @@ class Connection : public QObject
 {
     Q_OBJECT
 public:
-    Connection(const BackendPlugin* plugin, QObject* parent);
+    Connection(const ApplicationContextPtr& ctx, const BackendPlugin* plugin, QObject* parent);
 
     /// Reference to backend
     const BackendPlugin* plugin() const;
@@ -47,6 +49,13 @@ public:
 
     /// Is connection valid?
     bool isValid() const;
+
+    virtual void sync() {}
+    virtual bool isSyncUsed() { return false; }
+    void setLastSyncDateTime(const QDateTime& );
+    QDateTime lastSyncDateTime() const;
+
+    ApplicationContextPtr applicationContext() const;
 
 signals:
     /// Connection's options changed

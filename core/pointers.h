@@ -1,4 +1,8 @@
-#ifndef POINTERS_H
-#define POINTERS_H
+#include "pointerscommon.h"
 
-#endif // POINTERS_H
+namespace Core
+{
+
+DECL_POINTER(ApplicationContext);
+
+}

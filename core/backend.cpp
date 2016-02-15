@@ -5,8 +5,9 @@ namespace Core
 namespace PMS
 {
 
-BackendPlugin::BackendPlugin(QObject* parent)
+BackendPlugin::BackendPlugin(const ApplicationContextPtr& ctx, QObject* parent)
     : QObject(parent)
+    , ctx_(ctx)
 {
 }
 

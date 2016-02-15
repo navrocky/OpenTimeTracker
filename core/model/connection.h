@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QVariantMap>
+#include <QDateTime>
 #include <3rdparty/qdjangodb/QDjangoModel.h>
 
 namespace Core
@@ -17,6 +18,7 @@ class Connection : public QDjangoModel
     Q_PROPERTY(QString backendName MEMBER backendName)
     Q_PROPERTY(QString title MEMBER title)
     Q_PROPERTY(QByteArray options MEMBER options)
+    Q_PROPERTY(QDateTime lastSyncDateTime MEMBER lastSyncDateTime)
 
 public:
     /// Backend name
@@ -27,6 +29,9 @@ public:
 
     /// Connection specific options
     QByteArray options;
+
+    /// Last synchronization time
+    QDateTime lastSyncDateTime;
 };
 
 }

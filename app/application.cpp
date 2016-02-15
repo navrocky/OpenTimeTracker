@@ -16,10 +16,13 @@
 #include <3rdparty/qdjangodb/QDjangoQuerySet.h>
 #include <core/error.h>
 #include <core/backend.h>
+#include <core/applicationcontext.h>
 #include <core/model/modelregistration.h>
 #include <core/model/info.h>
 #include <core/model/connection.h>
 #include "dbtools.h"
+
+using namespace std;
 
 Q_LOGGING_CATEGORY(APPLICATION, "application")
 
@@ -29,6 +32,7 @@ Application::Application(QObject* parent)
     : QObject(parent)
 {
     application = this;
+    ctx_ = make_shared<Core::ApplicationContext>();
 }
 
 Application::~Application()
@@ -140,6 +144,7 @@ void Application::loadConnections()
 
             connection->setId(conn.pk().toInt());
             connection->setTitle(conn.title);
+            connection->setLastSyncDateTime(conn.lastSyncDateTime);
 
             QBuffer buf;
             buf.setData(conn.options);
@@ -164,6 +169,7 @@ void Application::saveConnection(Core::PMS::Connection* connection)
         conn.setPk(connection->id());
     conn.backendName = connection->plugin()->name();
     conn.title = connection->title();
+    conn.lastSyncDateTime = connection->lastSyncDateTime();
 
     QVariantMap m;
     connection->save(m);

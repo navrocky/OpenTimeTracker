@@ -3,6 +3,7 @@
 #include <QObject>
 
 #include "connection.h"
+#include "pointers.h"
 
 namespace Core
 {
@@ -13,7 +14,7 @@ class BackendPlugin : public QObject
 {
     Q_OBJECT
 public:
-    BackendPlugin(QObject* parent = 0);
+    BackendPlugin(const ApplicationContextPtr& ctx, QObject* parent = 0);
 
     virtual QString name() const = 0;
     virtual QString title() const = 0;
@@ -22,6 +23,10 @@ public:
     virtual Connection* createConnection(QObject* parent = 0) const = 0;
     virtual QWidget* createOptionsWidget(Connection* connection, QWidget* parent = 0) const = 0;
 
+    ApplicationContextPtr applicationContext() const { return ctx_; }
+
+private:
+    ApplicationContextPtr ctx_;
 };
 
 }

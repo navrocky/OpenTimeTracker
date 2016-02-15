@@ -12,7 +12,7 @@ class Connection : public Core::PMS::Connection
 {
     Q_OBJECT
 public:
-    Connection(const Core::PMS::BackendPlugin* plugin, QObject* parent = 0);
+    Connection(const Core::ApplicationContextPtr& ctx, const Core::PMS::BackendPlugin* plugin, QObject* parent = 0);
 
     QString apiUrl() const { return apiUrl_; }
     void setApiUrl(const QString& v);
@@ -29,6 +29,9 @@ public:
     QNetworkReply* checkConnection(Core::PMS::SimpleResultHandler);
 
     QNetworkReply* connectToAccount(const QString& email, const QString& password, Core::PMS::SimpleResultHandler handler);
+
+    void sync() override;
+    bool isSyncUsed() override { return true; }
 
 private:
     void updateValidFlag();

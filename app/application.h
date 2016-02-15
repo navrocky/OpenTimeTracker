@@ -6,6 +6,7 @@
 #include <QSqlDatabase>
 //#include <core/pmsbackend.h>
 #include "pointers.h"
+#include <core/pointers.h>
 
 typedef QList<BackendPluginPtr> BackendPlugins;
 typedef QList<ConnectionPtr> Connections;
@@ -28,12 +29,14 @@ public:
     template <typename T>
     void registerBackend()
     {
-        backends_ << std::make_shared<T>();
+        backends_ << std::make_shared<T>(ctx_);
     }
 
     Connections connections() const { return connections_; }
     void addConnection(ConnectionPtr connection);
     void removeConnection(ConnectionPtr connection);
+
+    Core::ApplicationContextPtr context() const { return ctx_; }
 
 signals:
     void connectionAdded(ConnectionPtr);
@@ -56,4 +59,5 @@ private:
     BackendPlugins backends_;
     Connections connections_;
     QSqlDatabase db_;
+    Core::ApplicationContextPtr ctx_;
 };
