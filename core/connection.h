@@ -50,7 +50,7 @@ public:
     /// Is connection valid?
     bool isValid() const;
 
-    virtual void sync() {}
+    virtual BackgroundTask* sync(QObject* taskParent = 0) { return nullptr; }
     virtual bool isSyncUsed() { return false; }
     void setLastSyncDateTime(const QDateTime& );
     QDateTime lastSyncDateTime() const;

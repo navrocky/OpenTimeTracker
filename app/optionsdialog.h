@@ -2,7 +2,7 @@
 
 #include <QDialog>
 
-#include "pointers.h"
+#include <core/pointers.h>
 
 namespace Ui
 {
@@ -19,13 +19,12 @@ public:
 
 private slots:
     void currentPageChanged(int i);
-    void connectionCreated(ConnectionPtr connection);
+    void connectionCreated(Core::PMS::ConnectionPtr connection);
 
 private:
     void updateNavPanel();
     void updateConnectionPages();
 
     Ui::OptionsDialog* ui;
-    ContextPtr ctx_;
     QList<QWidget*> connectionPages_;
 };

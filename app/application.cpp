@@ -20,6 +20,7 @@
 #include <core/model/modelregistration.h>
 #include <core/model/info.h>
 #include <core/model/connection.h>
+#include <core/backgroundtask.h>
 #include "dbtools.h"
 
 using namespace std;
@@ -33,6 +34,7 @@ Application::Application(QObject* parent)
 {
     application = this;
     ctx_ = make_shared<Core::ApplicationContext>();
+    ctx_->taskManager = new Core::TaskManager(this);
 }
 
 Application::~Application()
@@ -51,16 +53,9 @@ Application* Application::instance()
     return application;
 }
 
-void Application::addConnection(ConnectionPtr connection)
-{
-    connect(connection.get(), &Core::PMS::Connection::connectionChanged,
-            this, &Application::connectionChanged);
-    connections_ << connection;
-    emit connectionAdded(connection);
-    saveConnection(connection.get());
-}
 
-void Application::removeConnection(ConnectionPtr connection)
+
+void Application::removeConnection(Core::PMS::ConnectionPtr connection)
 {
     disconnect(connection.get(), &Core::PMS::Connection::connectionChanged,
             this, &Application::connectionChanged);
@@ -134,10 +129,10 @@ void Application::loadConnections()
     {
         try
         {
-            BackendPluginPtr backend = getBackendByName(conn.backendName);
+            Core::PMS::BackendPluginPtr backend = getBackendByName(conn.backendName);
             if (!backend)
                 throw Core::Error(tr("Connection backend not found: %1").arg(conn.backendName));
-            auto connection = ConnectionPtr(backend->createConnection());
+            auto connection = Core::PMS::ConnectionPtr(backend->createConnection());
 
             connect(connection.get(), &Core::PMS::Connection::connectionChanged,
                     this, &Application::connectionChanged);
@@ -196,12 +191,12 @@ void Application::migrateFromVersion0()
         throw Core::Error(tr("Cannot save DB version"));
 }
 
-BackendPluginPtr Application::getBackendByName(const QString& name)
+Core::PMS::BackendPluginPtr Application::getBackendByName(const QString& name)
 {
-    for (const BackendPluginPtr& backend: backends_)
+    for (const auto& backend: backends_)
     {
         if (backend->name() == name)
             return backend;
     }
-    return BackendPluginPtr();
+    return Core::PMS::BackendPluginPtr();
 }

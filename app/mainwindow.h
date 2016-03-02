@@ -17,6 +17,7 @@ public:
     ~MainWindow();
 
 private slots:
+    void synchronize();
     void showOptions();
     void showAbout();
 

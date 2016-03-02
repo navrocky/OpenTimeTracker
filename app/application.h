@@ -4,12 +4,12 @@
 #include <QObject>
 #include <QPointer>
 #include <QSqlDatabase>
-//#include <core/pmsbackend.h>
-#include "pointers.h"
 #include <core/pointers.h>
+#include <core/connection.h>
+#include "pointers.h"
 
-typedef QList<BackendPluginPtr> BackendPlugins;
-typedef QList<ConnectionPtr> Connections;
+typedef QList<Core::PMS::BackendPluginPtr> BackendPlugins;
+typedef QList<Core::PMS::ConnectionPtr> Connections;
 
 class QSqlDatabase;
 
@@ -33,14 +33,21 @@ public:
     }
 
     Connections connections() const { return connections_; }
-    void addConnection(ConnectionPtr connection);
-    void removeConnection(ConnectionPtr connection);
+    void addConnection(Core::PMS::ConnectionPtr connection)
+    {
+        connect(connection.get(), &Core::PMS::Connection::connectionChanged,
+                this, &Application::connectionChanged);
+        connections_ << connection;
+        emit connectionAdded(connection);
+        saveConnection(connection.get());
+    }
+    void removeConnection(Core::PMS::ConnectionPtr connection);
 
     Core::ApplicationContextPtr context() const { return ctx_; }
 
 signals:
-    void connectionAdded(ConnectionPtr);
-    void connectionRemoved(ConnectionPtr);
+    void connectionAdded(Core::PMS::ConnectionPtr);
+    void connectionRemoved(Core::PMS::ConnectionPtr);
 
 private slots:
     void connectionChanged();
@@ -54,7 +61,7 @@ private:
     // migrations
     void migrateFromVersion0();
 
-    BackendPluginPtr getBackendByName(const QString&);
+    Core::PMS::BackendPluginPtr getBackendByName(const QString&);
 
     BackendPlugins backends_;
     Connections connections_;

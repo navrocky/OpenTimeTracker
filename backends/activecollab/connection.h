@@ -30,7 +30,7 @@ public:
 
     QNetworkReply* connectToAccount(const QString& email, const QString& password, Core::PMS::SimpleResultHandler handler);
 
-    void sync() override;
+    Core::BackgroundTask* sync(QObject* parent) override;
     bool isSyncUsed() override { return true; }
 
 private:

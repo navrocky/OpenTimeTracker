@@ -18,6 +18,8 @@ class Connection : public QDjangoModel
     Q_PROPERTY(QString backendName MEMBER backendName)
     Q_PROPERTY(QString title MEMBER title)
     Q_PROPERTY(QByteArray options MEMBER options)
+
+    Q_CLASSINFO("lastSyncDateTime", "null=true")
     Q_PROPERTY(QDateTime lastSyncDateTime MEMBER lastSyncDateTime)
 
 public:

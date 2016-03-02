@@ -2,7 +2,7 @@
 
 #include <QWidget>
 
-#include "pointers.h"
+#include <core/pointers.h>
 
 namespace Ui
 {
@@ -17,7 +17,7 @@ public:
     ~CreateAccountPage();
 
 signals:
-    void connectionCreated(ConnectionPtr newConnection);
+    void connectionCreated(Core::PMS::ConnectionPtr newConnection);
 
 private slots:
     void createAccount();

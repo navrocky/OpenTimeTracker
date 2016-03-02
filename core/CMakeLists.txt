@@ -15,6 +15,8 @@ set(SOURCES
     pointerscommon.h
     applicationcontext.h
     applicationcontext.cpp
+    backgroundtask.h
+    backgroundtask.cpp
 )
 
 set(CMAKE_AUTOMOC ON)

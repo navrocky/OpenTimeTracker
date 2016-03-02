@@ -157,11 +157,16 @@ void Connection::updateValidFlag()
     setValid(!apiUrl().isEmpty() && !apiKey().isEmpty());
 }
 
-void ActiveCollab::Connection::sync()
+Core::BackgroundTask* ActiveCollab::Connection::sync(QObject* parent)
 {
     auto ctx = make_shared<SyncTask::Context>();
     ctx->client = client_;
     ctx->root = applicationContext()->rootModel;
+
+    auto task = new SyncTask::Projects(ctx, parent ? parent : this);
+    applicationContext()->taskManager->startDetached(task);
+
+    return task;
 }
 
 }

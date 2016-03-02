@@ -8,7 +8,7 @@
 #include "application.h"
 #include "pointers.h"
 
-Q_DECLARE_METATYPE(BackendPluginPtr)
+Q_DECLARE_METATYPE(Core::PMS::BackendPluginPtr)
 
 CreateAccountPage::CreateAccountPage(QWidget* parent)
     : QWidget(parent)
@@ -29,8 +29,8 @@ void CreateAccountPage::createAccount()
     auto item = ui->accountsListWidget->currentItem();
     if (!item)
         return;
-    auto backend = item->data(Qt::UserRole).value<BackendPluginPtr>();
-    auto connection = ConnectionPtr(backend->createConnection());
+    auto backend = item->data(Qt::UserRole).value<Core::PMS::BackendPluginPtr>();
+    auto connection = Core::PMS::ConnectionPtr(backend->createConnection());
 
     Application::instance()->addConnection(connection);
     emit connectionCreated(connection);

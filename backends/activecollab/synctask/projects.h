@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QObject>
+#include <core/backgroundtask.h>
 #include "pointers.h"
 
 namespace ActiveCollab
@@ -8,13 +9,14 @@ namespace ActiveCollab
 namespace SyncTask
 {
 
-class Projects : public QObject
+class Projects : public Core::BackgroundTask
 {
     Q_OBJECT
 public:
-    Projects(const ContextPtr& ctx);
+    Projects(const ContextPtr& ctx, QObject* parent = 0);
 
-    void exec();
+protected:
+    void doStart() override;
 
 private:
     ContextPtr ctx_;

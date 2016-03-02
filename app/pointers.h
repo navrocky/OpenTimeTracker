@@ -1,17 +1,5 @@
 #pragma once
 
-#include <memory>
+#include <core/pointerscommon.h>
 
-class Application;
-typedef std::shared_ptr<Application> ContextPtr;
-
-namespace Core
-{
-namespace PMS
-{
-class BackendPlugin;
-class Connection;
-}
-}
-typedef std::shared_ptr<Core::PMS::BackendPlugin> BackendPluginPtr;
-typedef std::shared_ptr<Core::PMS::Connection> ConnectionPtr;
+DECL_POINTER(Application)

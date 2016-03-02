@@ -3,4 +3,10 @@
 namespace Core
 {
 
+ApplicationContext::ApplicationContext()
+    : taskManager()
+{
+
+}
+
 }

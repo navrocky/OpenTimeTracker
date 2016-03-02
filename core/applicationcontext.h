@@ -5,11 +5,15 @@
 namespace Core
 {
 
+class TaskManager;
+
 class ApplicationContext
 {
 public:
-    Model::RootPtr rootModel;
+    ApplicationContext();
 
+    Model::RootPtr rootModel;
+    TaskManager* taskManager;
 };
 
 }

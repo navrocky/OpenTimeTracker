@@ -9,7 +9,7 @@
 #include <core/connection.h>
 #include <core/backend.h>
 
-Q_DECLARE_METATYPE(ConnectionPtr)
+Q_DECLARE_METATYPE(Core::PMS::ConnectionPtr)
 
 OptionsDialog::OptionsDialog(QWidget* parent)
     : QDialog(parent)
@@ -50,7 +50,7 @@ void OptionsDialog::currentPageChanged(int i)
 
 }
 
-void OptionsDialog::connectionCreated(ConnectionPtr connection)
+void OptionsDialog::connectionCreated(Core::PMS::ConnectionPtr connection)
 {
     updateConnectionPages();
 
@@ -60,7 +60,8 @@ void OptionsDialog::connectionCreated(ConnectionPtr connection)
     // select new connection page
     for (int i = 0; i < ui->stackedWidget->count(); i++)
     {
-        auto currentConn = ui->stackedWidget->widget(i)->property("connection").value<ConnectionPtr>();
+        auto currentConn = ui->stackedWidget->widget(i)->property("connection")
+                           .value<Core::PMS::ConnectionPtr>();
         if (currentConn == connection)
         {
             ui->pageListWidget->setCurrentRow(i);
