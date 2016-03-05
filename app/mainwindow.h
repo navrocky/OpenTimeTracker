@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QMainWindow>
+#include <core/pointers.h>
 #include "pointers.h"
 
 namespace Ui
@@ -20,6 +21,8 @@ private slots:
     void synchronize();
     void showOptions();
     void showAbout();
+
+    void showError(Core::ErrorDescriptionPtr);
 
 private:
     Ui::MainWindow* ui;

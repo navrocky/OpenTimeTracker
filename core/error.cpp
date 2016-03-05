@@ -3,18 +3,14 @@
 #include <QByteArray>
 #include <QObject>
 
+#include "errordescription.h"
+
 namespace Core
 {
 
 struct Error::Data
 {
-    Data()
-        : code(Error::NoError)
-    {}
-
-    Error::Code code;
-    QString message;
-    QString additional;
+    ErrorDescriptionPtr descr;
     QByteArray whatMessage;
 };
 
@@ -22,54 +18,48 @@ Error::Error()
 {
 }
 
-Error::Error(Error::Code code)
+Error::Error(const ErrorDescriptionPtr& descr)
 {
-    d->code = code;
+    d->descr = descr;
+    updateWhatMessage();
 }
 
-Error::Error(Error::Code code, const QString& message, const QString& additional)
+Error::Error(ErrorCode code)
 {
-    d->code = code;
-    d->message = message;
-    d->additional = additional;
+    d->descr = ErrorDescription::create(code, QString());
+    updateWhatMessage();
+}
+
+Error::Error(ErrorCode code, const QString& message, const QString& additional)
+{
+    d->descr = ErrorDescription::create(code, message, additional);
     updateWhatMessage();
 }
 
 Error::Error(const QString& message, const QString& additional)
 {
-    d->code = Unclassified;
-    d->message = message;
-    d->additional = additional;
+    d->descr = ErrorDescription::create(ErrorCode::Unclassified, message, additional);
     updateWhatMessage();
 }
 
-Error::Code Error::code() const
+ErrorCode Error::code() const
 {
-    return d->code;
+    return d->descr->code();
 }
 
 QString Error::message() const
 {
-    return d->message;
+    return d->descr->message();
 }
 
 QString Error::codeStr() const
 {
-    switch (d->code)
-    {
-        case NoError:
-            return QObject::tr("No error");
-        case Unclassified:
-            return QObject::tr("Unclassified error");
-        case Network:
-            return QObject::tr("Network error");
-    }
-    return QString();
+    return d->descr->codeStr();
 }
 
 bool Error::hasError() const
 {
-    return d->code != NoError;
+    return d->descr && d->descr->code() != ErrorCode::NoError;
 }
 
 const char* Error::what() const throw()
@@ -77,10 +67,16 @@ const char* Error::what() const throw()
     return d->whatMessage.data();
 }
 
+ErrorDescriptionPtr Error::description() const
+{
+    return d->descr;
+}
+
 void Error::updateWhatMessage()
 {
-    QString additional = !d->additional.isEmpty() ? QString(" [%1]").arg(d->additional) : QString();
-    d->whatMessage = QString("(%1) %2%3").arg(d->code).arg(d->message).arg(additional).toUtf8();
+    QString additional = !d->descr->additional().isEmpty() ? QString(" [%1]").arg(d->descr->additional()) : QString();
+    d->whatMessage = QString("(%1) %2%3").arg(static_cast<int>(d->descr->code())).arg(d->descr->message()).arg(
+                         additional).toUtf8();
 }
 
 }

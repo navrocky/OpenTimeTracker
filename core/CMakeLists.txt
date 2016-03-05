@@ -3,9 +3,14 @@ set(TARGET core)
 add_subdirectory(model)
 
 set(SOURCES
+    init.h
+    init.cpp
     implicitsharing.h
+    errorcode.h
     error.h
     error.cpp
+    errordescription.h
+    errordescription.cpp
     backend.h
     backend.cpp
     connection.h
@@ -17,6 +22,8 @@ set(SOURCES
     applicationcontext.cpp
     backgroundtask.h
     backgroundtask.cpp
+    finalizator.h
+    finalizator.cpp
 )
 
 set(CMAKE_AUTOMOC ON)

@@ -13,7 +13,7 @@ namespace DBTools
 void execQueryAndCheck(QSqlQuery& query)
 {
     if (!query.exec())
-        throw Error(Error::Database, QObject::tr("Error executing query"), query.lastError().text());
+        throw Error(ErrorCode::Database, QObject::tr("Error executing query"), query.lastError().text());
 }
 
 void execQueryAndCheck(const QString& query)

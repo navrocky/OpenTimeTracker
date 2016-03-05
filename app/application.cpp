@@ -25,7 +25,7 @@
 
 using namespace std;
 
-Q_LOGGING_CATEGORY(APPLICATION, "application")
+Q_LOGGING_CATEGORY(APPLICATION, "Application")
 
 static Application* application = 0;
 
@@ -58,7 +58,7 @@ Application* Application::instance()
 void Application::removeConnection(Core::PMS::ConnectionPtr connection)
 {
     disconnect(connection.get(), &Core::PMS::Connection::connectionChanged,
-            this, &Application::connectionChanged);
+               this, &Application::connectionChanged);
     connections_.removeAll(connection);
     emit connectionRemoved(connection);
 }

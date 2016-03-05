@@ -3,6 +3,8 @@
 #include <exception>
 #include <QString>
 #include "implicitsharing.h"
+#include "errorcode.h"
+#include "pointers.h"
 
 namespace Core
 {
@@ -10,22 +12,13 @@ namespace Core
 class Error : public std::exception
 {
 public:
-    enum Code
-    {
-        NoError = 0,
-        Unclassified = 1,
-        Network = 2,
-        Parse = 3,
-        Database = 4,
-        Authorization = 5
-    };
-
     Error();
-    Error(Code code);
-    Error(Code code, const QString& message, const QString& additional = QString());
+    Error(const ErrorDescriptionPtr& descr);
+    Error(ErrorCode code);
+    Error(ErrorCode code, const QString& message, const QString& additional = QString());
     Error(const QString& message, const QString& additional = QString());
 
-    Code code() const;
+    ErrorCode code() const;
     QString message() const;
     QString codeStr() const;
 
@@ -33,8 +26,11 @@ public:
 
     const char* what() const throw();
 
+    ErrorDescriptionPtr description() const;
+
 private:
     void updateWhatMessage();
+
 
     struct Data;
     ImplicitSharing<Data> d;

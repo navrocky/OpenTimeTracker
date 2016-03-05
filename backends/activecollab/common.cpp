@@ -19,7 +19,7 @@ QDomDocument checkReplyAndParseXml(QNetworkReply *reply)
 
     QDomDocument doc;
     if (!doc.setContent(reply, &errorMsg, &errorLine, &errorColumn))
-        throw Error(Error::Network, QObject::tr("Error of parsing reply"),
+        throw Error(ErrorCode::Network, QObject::tr("Error of parsing reply"),
                     QObject::tr("%1 line:%2 col:%3").arg(errorMsg).arg(errorLine).arg(errorColumn));
 
     qDebug() << "<8e4686ac>" << doc.toString();
@@ -29,8 +29,16 @@ QDomDocument checkReplyAndParseXml(QNetworkReply *reply)
 
 void checkReply(QNetworkReply *reply)
 {
-    if (reply->error() != QNetworkReply::NoError)
-        throw Error(Error::Network, reply->errorString());
+    auto errorCode = reply->error();
+    switch (errorCode)
+    {
+        case QNetworkReply::NoError:
+            return;
+        case QNetworkReply::ContentOperationNotPermittedError:
+            throw Error(ErrorCode::Authorization, reply->errorString());
+        default:
+            throw Error(ErrorCode::Network, reply->errorString());
+    }
 }
 
 }

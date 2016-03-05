@@ -19,6 +19,8 @@ protected:
     void doStart() override;
 
 private:
+    void replyFinished();
+
     ContextPtr ctx_;
 };
 

@@ -85,7 +85,7 @@ QNetworkReply* Connection::checkConnection(Core::PMS::SimpleResultHandler handle
             auto doc = checkReplyAndParseXml(reply);
             auto elem = doc.documentElement();
             if (elem.isNull() || elem.tagName() != "api_is_alive")
-                throw Error(Error::Parse);
+                throw Error(ErrorCode::Parse);
 
             handler(Error());
         }
@@ -140,10 +140,10 @@ QNetworkReply* Connection::connectToAccount(const QString &email,
                     case 4: error = tr("Not allowed for given User and their System Role"); break;
                     default: error = tr("Unknown error"); break;
                 }
-                throw Error(Error::Authorization, error);
+                throw Error(ErrorCode::Authorization, error);
             }
 
-            throw Error(Error::Authorization, tr("Unknown error"));
+            throw Error(ErrorCode::Authorization, tr("Unknown error"));
         }
         catch (const Error& err)
         {
@@ -160,6 +160,8 @@ void Connection::updateValidFlag()
 Core::BackgroundTask* ActiveCollab::Connection::sync(QObject* parent)
 {
     auto ctx = make_shared<SyncTask::Context>();
+    ctx->token = apiKey_;
+    ctx->apiUrl = apiUrl_;
     ctx->client = client_;
     ctx->root = applicationContext()->rootModel;
 

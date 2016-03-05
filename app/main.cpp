@@ -2,6 +2,7 @@
 
 #include <QApplication>
 
+#include <core/init.h>
 #include <backends/activecollab/backend.h>
 
 #include "application.h"
@@ -14,6 +15,8 @@ int main(int argc, char** argv)
     QApplication app(argc, argv);
     app.setApplicationName("OpenTimeTracker");
     app.setOrganizationName("navrocky");
+
+    Core::init();
 
     Application modelApp;
 

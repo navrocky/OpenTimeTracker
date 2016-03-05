@@ -11,5 +11,6 @@ DECL_POINTER(BackendPlugin)
 
 DECL_POINTER(ApplicationContext);
 DECL_POINTER(BackgroundTask);
+DECL_POINTER(ErrorDescription);
 
 }
