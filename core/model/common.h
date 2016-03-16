@@ -1,11 +1,13 @@
 #pragma once
 
+#include <QtGlobal>
+
 namespace Core
 {
 namespace Model
 {
 
-typedef int InternalId;
+typedef qlonglong InternalId;
 
 }
 }

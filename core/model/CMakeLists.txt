@@ -6,6 +6,8 @@ set(SOURCES
     tools.h
     tools.cpp
     entitylist.h
+    remoteentity.h
+    remoteentity.cpp
     root.h
     root.cpp
     info.h

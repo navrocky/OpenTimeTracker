@@ -28,7 +28,7 @@ public:
     {
         for (int i = 0; i < this->size(); i++)
         {
-            if (this->id == id)
+            if (this->at(i)->id == id)
                 return i;
 
         }

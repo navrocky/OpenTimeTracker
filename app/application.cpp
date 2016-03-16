@@ -19,6 +19,7 @@
 #include <core/applicationcontext.h>
 #include <core/model/modelregistration.h>
 #include <core/model/info.h>
+#include <core/model/root.h>
 #include <core/model/connection.h>
 #include <core/backgroundtask.h>
 #include "dbtools.h"
@@ -35,6 +36,7 @@ Application::Application(QObject* parent)
     application = this;
     ctx_ = make_shared<Core::ApplicationContext>();
     ctx_->taskManager = new Core::TaskManager(this);
+    ctx_->rootModel = make_shared<Core::Model::Root>();
 }
 
 Application::~Application()
@@ -108,6 +110,8 @@ void Application::initDatabase()
             break;
     }
     qCDebug(APPLICATION) << tr("Current DB version: %1").arg(getDbVersion()).toUtf8().data();
+
+    ctx_->rootModel->init();
 }
 
 int Application::getDbVersion()

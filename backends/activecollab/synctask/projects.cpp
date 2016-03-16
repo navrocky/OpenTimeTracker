@@ -112,6 +112,7 @@ void Projects::parseProject(QXmlStreamReader* xml, QList<Core::Model::ProjectPtr
     {
         project = make_shared<Model::Project>();
     }
+//    project->connectionId =
 
 
 

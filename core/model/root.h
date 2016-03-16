@@ -4,6 +4,7 @@
 
 #include "pointers.h"
 #include "entitylist.h"
+#include "project.h"
 
 namespace Core
 {
