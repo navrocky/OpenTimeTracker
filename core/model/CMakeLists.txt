@@ -5,6 +5,7 @@ set(SOURCES
     common.h
     tools.h
     tools.cpp
+    entitylist.h
     root.h
     root.cpp
     info.h

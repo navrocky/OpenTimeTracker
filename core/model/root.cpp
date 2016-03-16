@@ -15,16 +15,16 @@ namespace Model
 
 void Root::init()
 {
-    projects_ = querySetToList(QDjangoQuerySet<Project>().all());
+    projects.init();
 }
 
-void Root::addProject(ProjectPtr project)
-{
-    if (!project->pk().isNull())
-        throw std::runtime_error("<c4277f49> Project already added");
-    project->save();
-    projects_ << project;
-}
+//void Root::addProject(ProjectPtr project)
+//{
+//    if (!project->pk().isNull())
+//        throw std::runtime_error("<c4277f49> Project already added");
+//    project->save();
+//    projects_ << project;
+//}
 
 //void Root::removeProject(ProjectPtr project)
 //{

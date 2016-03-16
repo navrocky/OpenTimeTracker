@@ -2,6 +2,7 @@
 
 #include <QNetworkReply>
 #include <QDomDocument>
+#include <QFile>
 #include <core/error.h>
 
 using namespace Core;
@@ -23,6 +24,12 @@ QDomDocument checkReplyAndParseXml(QNetworkReply *reply)
                     QObject::tr("%1 line:%2 col:%3").arg(errorMsg).arg(errorLine).arg(errorColumn));
 
     qDebug() << "<8e4686ac>" << doc.toString();
+
+#if 0
+    QFile f("result.xml");
+    f.open(QFile::WriteOnly);
+    f.write(doc.toString().toLocal8Bit());
+#endif
 
     return doc;
 }

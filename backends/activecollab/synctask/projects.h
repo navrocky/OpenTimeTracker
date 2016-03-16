@@ -2,7 +2,10 @@
 
 #include <QObject>
 #include <core/backgroundtask.h>
+#include <core/model/pointers.h>
 #include "pointers.h"
+
+class QXmlStreamReader;
 
 namespace ActiveCollab
 {
@@ -20,6 +23,7 @@ protected:
 
 private:
     void replyFinished();
+    void parseProject(QXmlStreamReader* xml, QList<Core::Model::ProjectPtr>& projects);
 
     ContextPtr ctx_;
 };

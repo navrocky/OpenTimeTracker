@@ -3,6 +3,7 @@
 #include <QList>
 
 #include "pointers.h"
+#include "entitylist.h"
 
 namespace Core
 {
@@ -14,13 +15,14 @@ class Root
 public:
     void init();
 
-    void addProject(ProjectPtr project);
+//    void addProject(ProjectPtr project);
 //    void removeProject(ProjectPtr project);
 
-    QList<ProjectPtr> projects() const { return projects_; }
+//    QList<ProjectPtr> projects() const { return projects_; }
+
+    EntityList<Project> projects;
 
 private:
-    QList<ProjectPtr> projects_;
 };
 
 }
