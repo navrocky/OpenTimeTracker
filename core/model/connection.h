@@ -15,11 +15,12 @@ class Connection : public QDjangoModel
     Q_OBJECT
     Q_CLASSINFO("__meta__", "db_table=connection")
 
+    Q_CLASSINFO("backendName", "db_column=backend")
     Q_PROPERTY(QString backendName MEMBER backendName)
     Q_PROPERTY(QString title MEMBER title)
     Q_PROPERTY(QByteArray options MEMBER options)
 
-    Q_CLASSINFO("lastSyncDateTime", "null=true")
+    Q_CLASSINFO("lastSyncDateTime", "null=true db_column=last_sync")
     Q_PROPERTY(QDateTime lastSyncDateTime MEMBER lastSyncDateTime)
 
 public:

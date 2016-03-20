@@ -46,6 +46,12 @@ public:
     template <class T>
     static QDjangoMetaModel registerModel();
 
+    static bool beginTransaction();
+    static bool commitTransaction();
+    static bool rollbackTransaction();
+
+    static QSqlError lastDatabaseError();
+
 private:
     static QDjangoMetaModel registerModel(const QMetaObject *meta);
     static QDjangoMetaModel metaModel(const char *name);

@@ -7,6 +7,11 @@ namespace ActiveCollab
 namespace SyncTask
 {
 
+Context::Context()
+    : connectionId(0)
+{
+}
+
 QUrl Context::getUrl(const QString& command) const
 {
     QUrl url(apiUrl);

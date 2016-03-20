@@ -10,17 +10,15 @@ namespace Model
 {
 
 template <class Model>
-QList<std::shared_ptr<Model>> querySetToList(const QDjangoQuerySet<Model>& set)
+void querySetToList(const QDjangoQuerySet<Model>& set, QList<std::shared_ptr<Model>>& list)
 {
-    QList<std::shared_ptr<Model>> res;
     QDjangoQuerySet<Model> setCopy = set;
     for (int i = 0, size = setCopy.size(); i < size; i++)
     {
         auto obj = std::make_shared<Model>();
         setCopy.at(i, obj.get());
-        res << obj;
+        list << obj;
     }
-    return res;
 }
 
 }

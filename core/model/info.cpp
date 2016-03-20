@@ -6,6 +6,7 @@ namespace Model
 {
 
 Info::Info()
+    : dbVersion(0)
 {
     setPk(1);
 }

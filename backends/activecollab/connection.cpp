@@ -164,6 +164,7 @@ Core::BackgroundTask* ActiveCollab::Connection::sync(QObject* parent)
     ctx->apiUrl = apiUrl_;
     ctx->client = client_;
     ctx->root = applicationContext()->rootModel;
+    ctx->connectionId = id();
 
     auto task = new SyncTask::Projects(ctx, parent ? parent : this);
     applicationContext()->taskManager->startDetached(task);

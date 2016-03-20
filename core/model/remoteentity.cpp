@@ -10,5 +10,10 @@ RemoteEntity::RemoteEntity()
 {
 }
 
+bool RemoteEntity::isNew() const
+{
+    return pk().isNull();
+}
+
 }
 }

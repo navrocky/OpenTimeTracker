@@ -6,7 +6,6 @@ namespace Model
 {
 
 Project::Project()
-    : connectionId(0)
 {
 }
 

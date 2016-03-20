@@ -138,6 +138,11 @@ void ParallelBackgroundTask::addTask(BackgroundTask* t)
 void ParallelBackgroundTask::doStart()
 {
     executingTasks_ = tasks_.size();
+    if (executingTasks_ == 0)
+    {
+        finish();
+        return;
+    }
     for (auto task: tasks_)
     {
         if (task->state() == NotStarted)
@@ -162,7 +167,7 @@ void ParallelBackgroundTask::taskFinished()
 
     executingTasks_--;
     if (executingTasks_ == 0)
-        emit finished();
+        finish();
 }
 
 }

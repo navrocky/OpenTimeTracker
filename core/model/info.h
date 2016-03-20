@@ -12,6 +12,8 @@ class Info : public QDjangoModel
 {
     Q_OBJECT
     Q_CLASSINFO("__meta__", "db_table=info")
+
+    Q_CLASSINFO("dbVersion", "db_column=db_version")
     Q_PROPERTY(int dbVersion MEMBER dbVersion)
 public:
     Info();

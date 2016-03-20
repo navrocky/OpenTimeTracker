@@ -231,6 +231,30 @@ void QDjango::setDebugEnabled(bool enabled)
     globalDebugEnabled = enabled;
 }
 
+bool QDjango::beginTransaction()
+{
+    QDjangoQuery query(QDjango::database());
+    return query.exec("BEGIN TRANSACTION");
+}
+
+bool QDjango::commitTransaction()
+{
+    QDjangoQuery query(QDjango::database());
+    return query.exec("COMMIT TRANSACTION");
+}
+
+bool QDjango::rollbackTransaction()
+{
+    QDjangoQuery query(QDjango::database());
+    return query.exec("ROLLBACK TRANSACTION");
+}
+
+QSqlError QDjango::lastDatabaseError()
+{
+    QDjangoQuery query(QDjango::database());
+    return query.lastError();
+}
+
 static void qdjango_topsort(const QByteArray &modelName, QHash<QByteArray, bool> &visited,
                             QStack<QDjangoMetaModel> &stack)
 {

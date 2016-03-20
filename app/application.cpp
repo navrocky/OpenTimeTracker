@@ -91,27 +91,38 @@ void Application::initDatabase()
     QDjango::setDatabase(db_);
     QDjango::setDebugEnabled(true);
 
-    typedef QMap<int, std::function<void()>> Migrations;
-    Migrations migrations;
-
-    // register migrations here
-    migrations[0] = std::bind(&Application::migrateFromVersion0, this);
-
-    // execute migrations
-    forever
+    QDjango::beginTransaction();
+    try
     {
-        int dbVersion = getDbVersion();
-        if (migrations.contains(dbVersion))
-        {
-            qCDebug(APPLICATION) << tr("Migrate DB from version: %1").arg(dbVersion).toUtf8().data();
-            migrations[dbVersion]();
-        }
-        else
-            break;
-    }
-    qCDebug(APPLICATION) << tr("Current DB version: %1").arg(getDbVersion()).toUtf8().data();
 
-    ctx_->rootModel->init();
+        typedef QMap<int, std::function<void()>> Migrations;
+        Migrations migrations;
+
+        // register migrations here
+        migrations[0] = std::bind(&Application::migrateFromVersion0, this);
+
+        // execute migrations
+        forever
+        {
+            int dbVersion = getDbVersion();
+            if (migrations.contains(dbVersion))
+            {
+                qCDebug(APPLICATION) << tr("Migrate DB from version: %1").arg(dbVersion).toUtf8().data();
+                migrations[dbVersion]();
+            }
+            else
+                break;
+        }
+        qCDebug(APPLICATION) << tr("Current DB version: %1").arg(getDbVersion()).toUtf8().data();
+
+        ctx_->rootModel->init();
+        QDjango::commitTransaction();
+    }
+    catch (...)
+    {
+        QDjango::rollbackTransaction();
+        throw;
+    }
 }
 
 int Application::getDbVersion()
@@ -138,9 +149,6 @@ void Application::loadConnections()
                 throw Core::Error(tr("Connection backend not found: %1").arg(conn.backendName));
             auto connection = Core::PMS::ConnectionPtr(backend->createConnection());
 
-            connect(connection.get(), &Core::PMS::Connection::connectionChanged,
-                    this, &Application::connectionChanged);
-
             connection->setId(conn.pk().toInt());
             connection->setTitle(conn.title);
             connection->setLastSyncDateTime(conn.lastSyncDateTime);
@@ -152,6 +160,9 @@ void Application::loadConnections()
             QVariantMap m;
             ds >> m;
             connection->load(m);
+
+            connect(connection.get(), &Core::PMS::Connection::connectionChanged,
+                    this, &Application::connectionChanged);
 
             connections_ << connection;
         }
