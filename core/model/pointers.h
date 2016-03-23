@@ -9,6 +9,10 @@ namespace Model
 
 DECL_POINTER(Root)
 DECL_POINTER(Project)
+DECL_POINTER(Task)
+
+template <typename T>
+class EntitySync;
 
 }
 }

@@ -14,6 +14,8 @@ set(SOURCES
     QDjangoWhere.cpp
     QDjangoWhere.h
     QDjangoWhere_p.h
+    QDjangoScopedTransaction.h
+    QDjangoScopedTransaction.cpp
 )
 
 find_package(Qt5Core)

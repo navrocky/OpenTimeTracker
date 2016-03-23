@@ -17,6 +17,8 @@ set(SOURCES
     synctask/context.cpp
     synctask/projects.h
     synctask/projects.cpp
+    synctask/tasks.h
+    synctask/tasks.cpp
 )
 
 set(IFACES

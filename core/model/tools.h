@@ -21,5 +21,7 @@ void querySetToList(const QDjangoQuerySet<Model>& set, QList<std::shared_ptr<Mod
     }
 }
 
+
+
 }
 }

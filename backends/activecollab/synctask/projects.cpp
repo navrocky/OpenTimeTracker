@@ -9,10 +9,12 @@
 #include <QDomDocument>
 #include <QXmlStreamReader>
 
+#include <3rdparty/qdjangodb/QDjangoScopedTransaction.h>
 #include <core/errordescription.h>
 #include <core/finalizator.h>
 #include <core/model/project.h>
 #include <core/model/root.h>
+#include <core/model/entitysync.h>
 #include "context.h"
 #include "../common.h"
 
@@ -54,47 +56,31 @@ void Projects::replyFinished()
     {
         checkReply(reply);
 
-        QList<Model::ProjectPtr> projects;
-
         QXmlStreamReader xml(reply);
 
-        QDjango::beginTransaction();
-        try
+        Model::EntitySync<Model::Project> sync(ctx_->root->projects, ctx_->connectionId);
+
+        QDjangoScopedTransaction transaction;
+        if (xml.readNextStartElement())
         {
-            if (xml.readNextStartElement())
+            if (xml.name() == "projects")
             {
-                if (xml.name() == "projects")
+                while (xml.readNextStartElement())
                 {
-                    while (xml.readNextStartElement())
+                    if (xml.name() == "project")
                     {
-                        if (xml.name() == "project")
-                        {
-                            parseProject(&xml, projects);
-                        }
-                        else
-                            throwXmlError(&xml, QObject::tr("Unknown tag: %1").arg(xml.name().toString()));
+                        parseProject(&xml, sync);
                     }
+                    else
+                        throwXmlError(&xml, QObject::tr("Unknown tag: %1").arg(xml.name().toString()));
                 }
-                else
-                    throwXmlError(&xml, QObject::tr("Reply not a projects list."));
-
             }
+            else
+                throwXmlError(&xml, QObject::tr("Reply not a projects list."));
 
-            // remove old projects
-//            for (auto p : ctx_->root->projects)
-//            {
-//                if (p->connectionId
-//            }
-
-
-
-            QDjango::commitTransaction();
         }
-        catch (...)
-        {
-            QDjango::rollbackTransaction();
-            throw;
-        }
+        sync.removeOutdated();
+        transaction.commit();
 
         if (xml.error() != QXmlStreamReader::NoError)
         {
@@ -103,15 +89,11 @@ void Projects::replyFinished()
                         .arg(xml.lineNumber())
                         .arg(xml.columnNumber()));
         }
-
-
-        // remove other projects
-
     }
     CATCH_ERROR_IN_TASK;
 }
 
-void Projects::parseProject(QXmlStreamReader* xml, QList<Core::Model::ProjectPtr>& projects)
+void Projects::parseProject(QXmlStreamReader* xml, Model::EntitySync<Model::Project>& sync)
 {
     QString id;
     QString name;
@@ -126,23 +108,9 @@ void Projects::parseProject(QXmlStreamReader* xml, QList<Core::Model::ProjectPtr
             xml->skipCurrentElement();
     }
 
-    auto project = Model::Project::get(ctx_->root->projects, id, ctx_->connectionId);
-    if (!project)
-    {
-        project = make_shared<Model::Project>();
-        project->externalId = id;
-        project->connectionId = ctx_->connectionId;
-    }
+    auto project = sync.get(id);
     project->title = name;
-    if (project->isNew())
-        ctx_->root->projects.addEntity(project);
-    else
-    {
-        if (!project->save())
-            throw Error(Core::ErrorCode::Database, "<59090fe7> Cannot save project");
-    }
-
-    projects.append(project);
+    sync.release(project);
 }
 
 }

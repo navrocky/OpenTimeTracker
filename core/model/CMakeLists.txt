@@ -28,6 +28,7 @@ set(SOURCES
     category.cpp
     modelregistration.h
     modelregistration.cpp
+    entitysync.h
 )
 
 set(CMAKE_AUTOMOC ON)

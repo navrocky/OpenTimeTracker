@@ -1,6 +1,5 @@
 #pragma once
 
-#include <QObject>
 #include <core/backgroundtask.h>
 #include <core/model/pointers.h>
 #include "pointers.h"
@@ -12,18 +11,18 @@ namespace ActiveCollab
 namespace SyncTask
 {
 
-class Projects : public Core::BackgroundTask
+class Tasks: public Core::BackgroundTask
 {
     Q_OBJECT
 public:
-    Projects(const ContextPtr& ctx, QObject* parent = 0);
+    Tasks(const ContextPtr& ctx, QObject* parent = 0);
 
 protected:
     void doStart() override;
 
 private:
     void replyFinished();
-    void parseProject(QXmlStreamReader* xml, Core::Model::EntitySync<Core::Model::Project>& sync);
+    void parseTask(QXmlStreamReader* xml, Core::Model::EntitySync<Core::Model::Task>& sync);
 
     ContextPtr ctx_;
 };
