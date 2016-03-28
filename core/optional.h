@@ -31,6 +31,12 @@ public:
         return _value;
     }
 
+    T& operator*()
+    {
+        assert(_valid);
+        return _value;
+    }
+
     void operator=(const T& v)
     {
         _value = v;

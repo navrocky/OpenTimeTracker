@@ -26,14 +26,6 @@ namespace ActiveCollab
 namespace SyncTask
 {
 
-void throwXmlError(QXmlStreamReader* xml, const QString& description)
-{
-    throw Error(ErrorCode::Parse, QObject::tr("%1\nLine %2, column %3")
-                .arg(description)
-                .arg(xml->lineNumber())
-                .arg(xml->columnNumber()));
-}
-
 Projects::Projects(const ContextPtr& ctx, QObject* parent)
     : Core::BackgroundTask(tr("Refresh project list"), parent)
     , ctx_(ctx)

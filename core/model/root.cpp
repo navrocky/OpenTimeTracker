@@ -15,7 +15,7 @@ namespace Model
 
 void Root::init()
 {
-    projects.init();
+//    projects.init();
 }
 
 //void Root::addProject(ProjectPtr project)

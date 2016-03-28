@@ -22,32 +22,48 @@ class RemoteEntity : public QDjangoModel
 public:
     RemoteEntity();
 
+    int internalId() const;
+
     QString externalId;
     int connectionId;
 
     bool isNew() const;
 
     template <class T>
-    static int find(const T& list, const QString& id, InternalId connectionId)
+    static int findByExtId(const T& list, const QString& externalId, InternalId connectionId)
     {
         for (int i = 0; i < list.size(); i++)
         {
             const auto& ent = list[i];
-            if (ent->externalId == id && ent->connectionId == connectionId)
+            if (ent->externalId == externalId && ent->connectionId == connectionId)
                 return i;
         }
         return -1;
     }
 
     template <class T>
-    static auto get(const T& list, const QString& id, InternalId connectionId) -> typename T::value_type
+    static auto tryGetByExtId(const T& list, const QString& externalId, InternalId connectionId) -> typename T::value_type
     {
-        int i = find(list, id, connectionId);
+        int i = findByExtId(list, externalId, connectionId);
         if (i >= 0)
             return list[i];
         else
             return typename T::value_type();
     }
+
+//    template <class T>
+//    static int findByExtId(const T& list, const QString& externalId, InternalId connectionId)
+//    {
+//        for (int i = 0; i < list.size(); i++)
+//        {
+//            const auto& ent = list[i];
+//            if (ent->externalId == externalId && ent->connectionId == connectionId)
+//                return i;
+//        }
+//        return -1;
+//    }
+
+
 
 };
 

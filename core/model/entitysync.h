@@ -20,7 +20,7 @@ public:
         : list_(list)
         , connectionId_(connectionId)
     {
-        for (const auto& e : list)
+        for (const auto& e : list.entities())
         {
             if (e->connectionId == connectionId)
                 outdatedIds_.insert(e->externalId);
@@ -29,7 +29,7 @@ public:
 
     std::shared_ptr<Entity> get(const QString& id) const
     {
-        auto project = Entity::get(list_, id, connectionId_);
+        auto project = Entity::tryGetByExtId(list_.entities(), id, connectionId_);
         if (!project)
         {
             project = std::make_shared<Entity>();
@@ -42,7 +42,7 @@ public:
     void release(const std::shared_ptr<Entity>& project)
     {
         if (project->isNew())
-            list_.addEntity(project);
+            list_.add(project);
         else
         {
             outdatedIds_.remove(project->externalId);
@@ -53,16 +53,11 @@ public:
 
     void removeOutdated()
     {
-        for (int i = 0; i < list_.size();)
+        auto entsCopy = list_.entities();
+        for (const auto& e : entsCopy)
         {
-            const auto& e = list_[i];
             if (outdatedIds_.contains(e->externalId))
-            {
-                list_.removeAt(i);
-                e->remove();
-            }
-            else
-                i++;
+                list_.remove(e);
         }
     }
 

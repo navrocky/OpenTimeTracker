@@ -5,6 +5,7 @@
 
 class QDomDocument;
 class QNetworkReply;
+class QXmlStreamReader;
 
 namespace ActiveCollab
 {
@@ -12,6 +13,8 @@ namespace ActiveCollab
 void checkReply(QNetworkReply* reply);
 
 QDomDocument checkReplyAndParseXml(QNetworkReply* reply);
+
+void throwXmlError(QXmlStreamReader* xml, const QString& description);
 
 #define CATCH_ERROR_IN_TASK \
     catch (const Core::Error& e) { setError(e.description()); } \

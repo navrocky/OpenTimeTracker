@@ -3,6 +3,7 @@
 #include <QNetworkReply>
 #include <QDomDocument>
 #include <QFile>
+#include <QXmlStreamReader>
 #include <core/error.h>
 
 using namespace Core;
@@ -46,6 +47,14 @@ void checkReply(QNetworkReply *reply)
         default:
             throw Error(ErrorCode::Network, reply->errorString());
     }
+}
+
+void throwXmlError(QXmlStreamReader* xml, const QString& description)
+{
+    throw Error(ErrorCode::Parse, QObject::tr("%1\nLine %2, column %3")
+                .arg(description)
+                .arg(xml->lineNumber())
+                .arg(xml->columnNumber()));
 }
 
 }
