@@ -31,7 +31,7 @@ public:
         if (!entities_)
         {
             Entities ents;
-            querySetToList(QDjangoQuerySet<T>().all(), ents);
+            querySetToList(querySet(), ents);
             entities_ = ents;
         }
         return *entities_;

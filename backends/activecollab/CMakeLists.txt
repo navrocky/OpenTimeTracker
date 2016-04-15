@@ -13,6 +13,8 @@ set(SOURCES
     optionswidget.cpp
 
     synctask/pointers.h
+    synctask/syncall.h
+    synctask/syncall.cpp
     synctask/context.h
     synctask/context.cpp
     synctask/projects.h

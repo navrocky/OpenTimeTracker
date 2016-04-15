@@ -27,7 +27,7 @@ TaskList::TaskList(int projectId)
 
 TaskList::QuerySet TaskList::querySet() const
 {
-    return QuerySet().filter(QDjangoWhere("project", QDjangoWhere::Equals, projectId_));
+    return QuerySet().filter(QDjangoWhere("projectId", QDjangoWhere::Equals, projectId_));
 }
 
 void TaskList::add(const EntityPtr& e)

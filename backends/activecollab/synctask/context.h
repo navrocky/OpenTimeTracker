@@ -5,6 +5,11 @@
 #include <core/model/pointers.h>
 #include <core/model/common.h>
 
+namespace Core
+{
+class TaskManager;
+}
+
 class QNetworkAccessManager;
 
 namespace ActiveCollab
@@ -22,6 +27,7 @@ public:
     QNetworkAccessManager* client;
     Core::Model::RootPtr root;
     Core::Model::InternalId connectionId;
+    Core::TaskManager* taskManager;
 
     QUrl getUrl(const QString& command) const;
 };

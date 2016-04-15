@@ -4,6 +4,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QXmlStreamReader>
+#include <QLoggingCategory>
 
 #include <3rdparty/qdjangodb/QDjangoScopedTransaction.h>
 
@@ -15,6 +16,8 @@
 #include <core/model/entitysync.h>
 #include "context.h"
 #include "../common.h"
+
+Q_LOGGING_CATEGORY(LOGGER, "ActiveCollab::SyncTask::Tasks")
 
 using namespace Core;
 
@@ -32,6 +35,7 @@ Tasks::Tasks(const QString& projectId, const ContextPtr& ctx, QObject* parent)
 
 void Tasks::doStart()
 {
+    qCDebug(LOGGER) << tr("Tasks synchronization for project %1 started").arg(projectId_);
     auto reply = ctx_->client->get(QNetworkRequest(ctx_->getUrl(QString("projects/%1/tasks").arg(projectId_))));
     reply->setParent(this);
     QObject::connect(reply, &QNetworkReply::finished, this, &Tasks::replyFinished);
@@ -50,8 +54,6 @@ void Tasks::replyFinished()
 
         auto project = Model::Project::tryGetByExtId(ctx_->root->projects.entities(), projectId_, ctx_->connectionId);
 
-//        auto taskList = ctx_->root->projects.
-
         Model::EntitySync<Model::Task> sync(project->tasks(), ctx_->connectionId);
 
         QDjangoScopedTransaction transaction;
@@ -63,7 +65,7 @@ void Tasks::replyFinished()
                 {
                     if (xml.name() == "task")
                     {
-//                        parseProject(&xml, sync);
+                        parseTask(&xml, sync);
                     }
                     else
                         throwXmlError(&xml, QObject::tr("Unknown tag: %1").arg(xml.name().toString()));
@@ -89,6 +91,23 @@ void Tasks::replyFinished()
 
 void Tasks::parseTask(QXmlStreamReader* xml, Core::Model::EntitySync<Core::Model::Task>& sync)
 {
+    QString id;
+    QString name;
+
+    while (xml->readNextStartElement())
+    {
+        if (xml->name() == "id")
+            id = xml->readElementText();
+        else if (xml->name() == "name")
+            name = xml->readElementText();
+        else
+            xml->skipCurrentElement();
+    }
+
+    auto task = sync.get(id);
+    task->title = name;
+    task->projectId = projectId_.toInt();
+    sync.release(task);
 
 }
 

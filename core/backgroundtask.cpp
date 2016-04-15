@@ -132,6 +132,8 @@ ParallelBackgroundTask::ParallelBackgroundTask(const QString& title, QObject* pa
 
 void ParallelBackgroundTask::addTask(BackgroundTask* t)
 {
+    if (!t->parent())
+        t->setParent(this);
     tasks_.append(t);
 }
 

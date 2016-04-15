@@ -9,6 +9,7 @@ namespace SyncTask
 
 Context::Context()
     : connectionId(0)
+    , taskManager()
 {
 }
 

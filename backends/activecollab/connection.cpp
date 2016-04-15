@@ -7,9 +7,12 @@
 #include <QDomDocument>
 #include <QApplication>
 
+#include <core/model/root.h>
 #include <core/applicationcontext.h>
 #include "synctask/context.h"
 #include "synctask/projects.h"
+#include "synctask/tasks.h"
+#include "synctask/syncall.h"
 #include "common.h"
 
 using namespace std;
@@ -18,13 +21,13 @@ using namespace Core;
 namespace ActiveCollab
 {
 
-Connection::Connection(const ApplicationContextPtr& ctx, const PMS::BackendPlugin *plugin, QObject* parent)
+Connection::Connection(const ApplicationContextPtr& ctx, const PMS::BackendPlugin* plugin, QObject* parent)
     : Core::PMS::Connection(ctx, plugin, parent)
     , client_(new QNetworkAccessManager(this))
 {
 }
 
-void Connection::setApiUrl(const QString &v)
+void Connection::setApiUrl(const QString& v)
 {
     if (apiUrl_ == v)
         return;
@@ -33,7 +36,7 @@ void Connection::setApiUrl(const QString &v)
     updateValidFlag();
 }
 
-void Connection::setUserEmail(const QString &v)
+void Connection::setUserEmail(const QString& v)
 {
     if (userEmail_ == v)
         return;
@@ -41,7 +44,7 @@ void Connection::setUserEmail(const QString &v)
     emit connectionChanged();
 }
 
-void Connection::setApiKey(const QString &v)
+void Connection::setApiKey(const QString& v)
 {
     if (apiKey_ == v)
         return;
@@ -96,9 +99,9 @@ QNetworkReply* Connection::checkConnection(Core::PMS::SimpleResultHandler handle
     });
 }
 
-QNetworkReply* Connection::connectToAccount(const QString &email,
-                                            const QString &password,
-                                            PMS::SimpleResultHandler handler)
+QNetworkReply* Connection::connectToAccount(const QString& email,
+        const QString& password,
+        PMS::SimpleResultHandler handler)
 {
     QUrlQuery query;
     query.addQueryItem("api_subscription[email]", email);
@@ -134,11 +137,21 @@ QNetworkReply* Connection::connectToAccount(const QString &email,
                 QString error;
                 switch (code)
                 {
-                    case 1: error = tr("Client details not set"); break;
-                    case 2: error = tr("Unknown user"); break;
-                    case 3: error = tr("Invalid password"); break;
-                    case 4: error = tr("Not allowed for given User and their System Role"); break;
-                    default: error = tr("Unknown error"); break;
+                    case 1:
+                        error = tr("Client details not set");
+                        break;
+                    case 2:
+                        error = tr("Unknown user");
+                        break;
+                    case 3:
+                        error = tr("Invalid password");
+                        break;
+                    case 4:
+                        error = tr("Not allowed for given User and their System Role");
+                        break;
+                    default:
+                        error = tr("Unknown error");
+                        break;
                 }
                 throw Error(ErrorCode::Authorization, error);
             }
@@ -165,10 +178,13 @@ Core::BackgroundTask* ActiveCollab::Connection::sync(QObject* parent)
     ctx->client = client_;
     ctx->root = applicationContext()->rootModel;
     ctx->connectionId = id();
+    ctx->taskManager = applicationContext()->taskManager;
 
-    auto task = new SyncTask::Projects(ctx, parent ? parent : this);
-    applicationContext()->taskManager->startDetached(task);
+    if (!parent)
+        parent = this;
 
+    auto task = new SyncTask::SyncAll(ctx, this);
+    ctx->taskManager->startDetached(task);
     return task;
 }
 
